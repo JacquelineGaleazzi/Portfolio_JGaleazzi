@@ -1,0 +1,367 @@
+@charset "utf-8";
+/* CSS Document */
+
+canvas {
+    border:1px solid black;
+}
+
+body {
+	background: #cbcbcb;
+	width: 1024px;
+	margin: 0px auto;
+	color: #50434e;
+}
+
+h1 {
+	font-family: 'titleFont', Arial, sans-serif;
+	font-size:34pt;
+	margin-top:40px;
+	margin-bottom:20px;
+}
+
+h2 {
+	font-family: 'headerFont', Arial, sans-serif;
+	font-size:16pt;
+	color:Black;
+}
+
+H3 {
+	font-family: 'headerSmallFont', Arial, sans-serif;
+	font-style: italic;
+	font-size:16px;	
+	margin-bottom:4px;
+}
+p {
+	font-family: 'textFont', Arial, sans-serif;
+	font-size:11pt;
+	line-height: 140%;
+	text-align:justify;
+	margin-top:4px;
+}
+
+span.highlight {
+	background:#c0fcfb;	
+	color:Black;
+}
+
+#over_mij {
+	background:White;
+}
+
+#over_mij p{
+	width: 500px;
+	margin-left: 50px;
+	padding-right: 50px;
+	float:left;
+}
+
+#over_mij h1{
+	width: 500px;
+	margin-left: 100px;
+	float:left;
+}
+
+#opleidingen {
+	background:White;
+	height:800px;
+}
+
+#opleidingen p,  #opleidingen h2, #opleidingen h3, #page5 h2{
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#opleidingen h1 {
+	margin-top:0px;
+	padding-top:40px;
+	background:White;	
+	margin-left:100px;
+}
+
+#opleidingen h2 {
+	margin-bottom:6px;
+}
+
+#opleidingen h3 {
+	margin-top:6px;
+}
+
+#projecten img {
+	margin-right:-4px;
+}
+
+#projecten {
+	background:White;	
+}
+
+
+#projecten h1{
+	margin:0; 
+	padding-top:40px;
+	padding-bottom:20px;
+	margin-left:100px;	
+}
+
+.imageBox { 
+  	position: relative; 
+    float:left;
+	width: 341px; /* for IE 6 */
+	margin-top:-4px;
+}
+
+.imageBox h2 { 
+   position: absolute; 
+   top: 4px; 
+   left: 10px; 
+   width: 100%; 
+   background:#50434e ;
+   color:White;
+   margin:0px;
+   top:0px;
+   right:0px;
+   left:0px;
+   padding:10px;
+   opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+   width:322px;
+}
+
+.imageBox p {
+	background:White none repeat scroll 0 0;
+	border-top-width: 0;
+	margin:-4px 0 0;
+	padding: 100px;
+	width: 824px;
+}
+
+.right {
+	left:-682px;
+	position:relative;
+}
+
+.middle {
+	left:-341px;
+	position:relative;
+}
+
+#page5 {
+	background:White;	
+}
+
+
+#page5 h1{
+	margin-top:0px;
+	padding-top:40px;
+	background:White;	
+	margin-left:100px;
+}
+
+@font-face{ 
+	font-family:'textFont';
+	src: url('fonts/MyriadWebPro.ttf') format('truetype'),
+	url('fonts/MyriadWebPro.eot?') format('embedded-opentype'),
+    url("fonts/MyriadWebPro.otf") format("opentype"),
+    url('fonts/MyriadWebPro.svg#svgMyriadWebPro') format('svg');
+}
+	
+@font-face{ 
+	font-family: 'titleFont';
+	src: url('fonts/ITCEDSCR.ttf') format('truetype'),
+	url('fonts/ITCEDSCR.eot?') format('embedded-opentype'),
+    url("fonts/EdwardianScriptITC.otf") format("opentype"),
+    url('fonts/EdwardianScriptITC.svg#svgEdwardianScriptITC') format('svg');
+}
+
+@font-face{
+	font-family:'headerFont';
+	src: url('fonts/SourceSansPro-ExtraLight.ttf') format('truetype'),
+	url('fonts/SourceSansPro-ExtraLight.eot?') format('embedded-opentype'),
+    url("fonts/SourceSansPro-ExtraLight.otf") format("opentype"),
+    url('fonts/SourceSansPro-ExtraLight.svg#svgSourceSansPro-ExtraLight') format('svg');
+}
+
+@font-face{
+	font-family:'headerSmallFont';
+	src: url('fonts/SourceSansPro-ExtraLightItalic.ttf') format('truetype'),
+	url('fonts/SourceSansPro-ExtraLightItalic.eot?') format('embedded-opentype'),
+       url("fonts/SourceSansPro-ExtraLightIt.otf") format("opentype"),
+       url('fonts/SourceSansPro-ExtraLightIt.svg#svgSourceSansPro-ExtraLightIt') format('svg');
+}
+
+.sticky{
+    position: fixed;
+    top: 0;
+    z-index: 100;	
+	width:1024px;
+}
+
+#logo {
+	position: fixed;
+    top: 0;
+    z-index: 101;
+}
+
+nav {
+	background:Black none repeat scroll 0% 0%;
+	z-index:105;
+}
+
+nav ul {
+    list-style-type: none;
+    overflow: hidden;
+    background-color: Black;
+	margin: 0 auto;
+	padding:0;
+	width:43%;
+	z-index:105;
+}
+
+nav li {
+    float: left;
+	margin:0;
+	padding:0;
+	z-index:105;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	font-family: 'textFont';
+	z-index:105;
+}
+
+/* Change the link color to #111 (black) on hover */
+nav li a:visited {
+	background-color: #403640;
+}
+
+nav li a:hover {
+    background-color:#1a161a;
+}
+
+a {
+   outline: 0;
+}
+
+a.nav-active {
+   background-color: #1a7bae;
+}
+
+.expandedcontent ul {
+	background:White;
+	padding-bottom:50px;
+	margin-top:0;
+	margin-bottom:0;
+	padding-left:100px;
+	padding-right:100px;
+	position:relative;
+	width:824px;
+}
+
+.expandedcontent li {
+	font-family: 'textFont';
+	list-style-type:none;
+	border-top-style:solid;
+	border-width:1px; 
+	border-color:#adadae;
+	padding-bottom:10px;
+	padding-top:10px;
+}
+
+.expandedcontent li:before {
+    content: "■";
+	padding-right:8px;
+    color: #1a7bae; /* or whatever color you prefer */
+}
+.expandedcontent li#lastitem{
+	border-bottom-style:solid;
+	border-bottom-color:#adadae;
+	border-bottom-width:1px;
+}
+.expandedcontent img {
+	background:White;
+	margin-bottom:-1px;
+	margin-right:0px;
+	margin-top:-4px;	
+}
+
+.expandedcontent h3{
+	font-family: 'headerFont', Arial, sans-serif;
+	font-size:16pt;
+	color:Black;
+	margin-bottom:0;
+	margin-left:0;
+	margin-top:-4px;
+	padding-left:100px;
+	padding-right:0;
+	padding-top:10px;
+	width:924px;	
+	background:White;
+}
+
+.expandedcontent p {
+	padding-top:20px;	
+	margin-top:0;
+}
+
+.taal_item p{
+	margin-left:0px;	
+	margin-right:50px;	
+	margin-bottom:0px;
+	margin-top:0px;
+	padding-top:34px;
+}
+
+.taal_item img {
+	float:left;
+	margin-left:50px;
+	margin-right:50px;
+}
+
+.taal_item{
+	padding-bottom:50px;	
+	padding-top:10px;
+	margin-right:50px;
+	margin-left:50px;
+	border-bottom-style: solid;
+	border-bottom-color:#CCC;
+	border-bottom-width:1px;
+}
+
+.taal_item #first_item{
+	padding-top:15px;
+	border-top-style: solid;
+	border-top-color:#CCC;
+	border-top-width:1px;
+}
+
+#page5 h2{
+	margin-top:30px;	
+}
+
+#page5 p {
+	margin-left:50px;
+	margin-right:50px;	
+}
+
+.content a:link {
+    color: #23a1e3;
+}
+
+/* visited link */
+.content a:visited {
+    color: #23a1e3;
+}
+
+/* mouse over link */
+.content a:hover {
+    color: #e323ca;
+}
+
+/* selected link */
+.content a:active {
+    color: #e323ca;
+}

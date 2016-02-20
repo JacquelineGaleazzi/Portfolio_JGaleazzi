@@ -1,0 +1,541 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Portfolio Jacqueline Galeazzi</title>
+  <link href="portfolio.css" rel="stylesheet" type="text/css">
+  <script src="jquery-1.12.0.min.js"></script>
+  <script>
+  $(window).scroll(function(event) {
+    var height = $(window).scrollTop();
+	var imageId = document.getElementById("light_image");
+	var imageValue = imageId.src;
+	
+	// toggle background
+    if(height > 900 && height < 1500 && imageValue != "file:///D:/Portfolio%20JG/interface_images/lampaan.jpg") {
+	imageId.src = "interface_images/lampaan.jpg";      
+    }
+	
+	if(height  < 900 || height > 1500 && imageId.src != "file:///D:/Portfolio%20JG/interface_images/lamp.jpg") {
+	imageId.src = "interface_images/lamp.jpg";      
+    }
+  });
+
+  $(document).ready(function() {
+	var stickyNavTop = $('nav').offset().top;
+	var stickyNav = function(){
+		var scrollTop = $(window).scrollTop();
+
+		if (scrollTop > stickyNavTop) { 
+    		$('nav').addClass('sticky');
+		} else {
+    		$('nav').removeClass('sticky'); 
+		}
+  	};
+ 
+  	stickyNav();
+  	init(); 
+  	$(window).scroll(function() {
+    	stickyNav();
+  	});
+
+  	var lastId,
+    	topMenu = $("#top-menu"),
+    	topMenuHeight = topMenu.outerHeight()+15,
+    	// All list items
+    	menuItems = topMenu.find("a"),
+    	// Anchors corresponding to menu items
+    	scrollItems = menuItems.map(function(){
+    	  var item = $($(this).attr("href"));
+    	  if (item.length) { return item; }
+    	});
+  
+		// Bind click handler to menu items
+		// so we can get a fancy scroll animation
+  	menuItems.click(function(e){
+ 		var href = $(this).attr("href"),
+    	  offsetTop = href === "#" ? 0 : $(href).offset().top-topMenuHeight+1;
+ 		$('html, body').stop().animate({ 
+    	  scrollTop: offsetTop
+  		}, 300);
+  		e.preventDefault();
+  	});
+	
+	  var aChildren = $("nav li").children(); // find the a children of the list items
+	  var aArray = []; // create the empty aArray
+	  for (var i=0; i < aChildren.length; i++) {    
+	  	var aChild = aChildren[i];
+	    var ahref = $(aChild).attr('href');
+	    aArray.push(ahref);
+	  } // this for loop fills the aArray with attribute href values
+
+	  $(window).scroll(function(){
+  		var windowPos = $(window).scrollTop(); // get the offset of the window from the top of page
+    	var windowHeight = $(window).height(); // get the height of the window
+    	var docHeight = $(document).height();
+			
+    	for (var i=0; i < aArray.length; i++) {
+    		var theID = aArray[i];
+        	var divPos = $(theID).offset().top; // get the offset of the div from the top of page
+        	var divHeight = $(theID).height(); // get the height of the div in question
+			
+        	if (windowPos >= (divPos - 100) && windowPos < (divPos + divHeight - 100)) {
+        		$("a[href='" + theID + "']").addClass("nav-active");
+        	} else {
+        	    $("a[href='" + theID + "']").removeClass("nav-active");
+        	}
+    	}
+
+    	if(windowPos + windowHeight == docHeight) {
+    		if (!$("nav li:last-child a").hasClass("nav-active")) {
+        		var navActiveCurrent = $(".nav-active").attr("href");
+            	$("a[href='" + navActiveCurrent + "']").removeClass("nav-active");
+            	$("nav li:last-child a").addClass("nav-active");
+        	}
+    	}
+  	});
+  });
+
+  </script>
+  <script type="text/javascript">
+
+  var collapseDivs, collapseLinks;
+  function createDocumentStructure (className) {
+  	if(document.getElementsByClassName){
+    	var elements = document.getElementsByClassName(className);
+    	collapseDivs = new Array(elements.length);
+    	collapseLinks = new Array(elements.length);
+    	for (var i = 0; i < elements.length; i++) {
+      		var element = elements[i];
+      		var siblingContainer;
+      		if (document.createElement &&(siblingContainer = document.createElement('div')) && siblingContainer.style){
+        		var nextSibling = element.nextSibling;
+        		element.parentNode.insertBefore(siblingContainer, nextSibling);
+        		var nextElement = elements[i + 1];
+        		while (nextSibling != nextElement && nextSibling != null) {
+        			var toMove = nextSibling;
+        			nextSibling = nextSibling.nextSibling;
+        			siblingContainer.appendChild(toMove);
+        		}
+        		siblingContainer.style.display = 'none';
+        
+        		collapseDivs[i] = siblingContainer;
+        
+        		createCollapseLink(element, siblingContainer, i);
+			}
+    		else {
+    			// no dynamic creation of elements possible
+        		return;
+    		}
+		}
+	}
+  }
+
+  function createCollapseLink (element, siblingContainer, index) {
+  	var span;
+  	if (document.createElement && (span = document.createElement('span'))) {
+  		span.appendChild(document.createTextNode(String.fromCharCode(160)));
+    	var link = document.createElement('a');
+    	link.collapseDiv = siblingContainer;
+    	link.href = '#';
+    	link.appendChild(document.createTextNode('meer'));
+    	link.onclick = collapseExpandLink;
+    	collapseLinks[index] = link;
+    	span.appendChild(link);
+    	element.appendChild(span);
+  	}
+  }
+
+  function collapseExpandLink (evt) {
+ 	if (this.collapseDiv.style.display == '') {
+    	this.parentNode.parentNode.nextSibling.style.display = 'none';
+    	this.firstChild.nodeValue = 'meer';
+  	}
+  	else {
+		collapseAll();
+    	this.parentNode.parentNode.nextSibling.style.display = '';
+    	this.firstChild.nodeValue = 'minder';
+  	}
+
+  	if (evt && evt.preventDefault) {
+    	evt.preventDefault();
+ 	}
+  	return false;
+  }
+
+  function expandAll (evt) {
+  	for (var i = 0; i < collapseDivs.length; i++) {
+    	collapseDivs[i].style.display = '';
+    	collapseLinks[i].firstChild.nodeValue = 'minder';
+ 	}
+  
+  	if (evt && evt.preventDefault) {
+    	evt.preventDefault();
+  	}
+  	return false;
+  }
+
+  function collapseAll (evt) {
+  	for (var i = 0; i < collapseDivs.length; i++) {
+    	collapseDivs[i].style.display = 'none';
+    	collapseLinks[i].firstChild.nodeValue = 'meer';
+  	}
+  
+  	if (evt && evt.preventDefault) {
+    	evt.preventDefault();
+  	}
+  	return false;
+  }
+  
+  window.onload = function (evt) {
+  	createDocumentStructure('interactiveh2'); 
+  }
+  </script>
+  </head>
+
+  <body>
+	<div class="wrapper">
+    <div id="nav-anchor"></div>
+    	<img id="logo" src="interface_images/logo.png" width="42" height="42" alt="logo" style=" float:left; margin-left:14px; margin-top:2px;">
+    	<nav>
+    		<ul id="top-menu">
+        		<li><a href="#page2">Over mij</a></li>
+        		<li><a href="#page3">Opleidingen</a></li>
+        		<li><a href="#page4">Projecten</a></li>
+        		<li><a href="#page5">Competenties</a></li>
+      		</ul>
+            
+          <p style="float:right; margin-left:942px; top:0px; position:fixed;">
+            	<a href="mailto:jgaleazziattu@gmail.com" target="_top"><img src="interface_images/email_square.png" width="34" height="34" alt="email_button" style="margin-right:7px; margin-top:2px;"></a><a href="http://nl.linkedin.com/in/JacquelineGaleazzi" target="_blank"><img src="interface_images/linked_in_square.png" width="34" height="34" alt="linkedIn_button" style="position:fixed; margin-right:7px; margin-top:2px;"></a>
+            </p>
+            
+  		</nav>
+  	</div>
+    
+     
+    
+  <div class="content">
+    	<section id="page2">
+    		
+            <canvas id="myCanvas" width="1022" height="200"></canvas>
+    		<script src="jquery-1.12.0.min.js"></script> 
+    		<script>
+	    		var c = document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
+
+				var textnumber = 1;
+				var alpha = 0;
+				var step = 50;
+				var steps = 255;
+        		var delay = 20;
+        		var rgbstep = 50;
+ 
+        		function init() {
+            		c = document.getElementById("myCanvas");
+            		ctx= c.getContext("2d");
+            		ctx.font = "40pt titleFont";
+            		ctx.textAlign = "center";
+					ctx.fillStyle = "#cecece"; 
+            		ctx.textBaseline = "middle";
+			    }
+ 
+         		function Textfadeup() {
+            		alpha = alpha + 0.01;
+            		ctx.fillStyle = "rgba(110, 154, 118, " + alpha + ")";
+		    		if (alpha < 1)
+                		var t = setTimeout('Textfadeup()', 30);
+            		if (alpha >= 1) {
+						var r = setTimeout('Textfadedown()', 10000);
+            		}
+        		}
+				
+        		function Textfadedown() {
+					alpha = alpha - 0.01;
+					ctx.fillStyle = "rgba(110, 154, 118, " + alpha + ")";
+            		if (alpha > 0)
+                		var t = setTimeout('Textfadedown()', 10);
+            		if (alpha <= 0) {
+                		var r = setTimeout('Textfadeup()', 20000);
+            		}
+        		}  
+
+				var img = new Image();
+
+				// User Variables - customize these to change the image being scrolled, its
+				// direction, and the speed.
+
+				img.src = 'interface_images/lang.jpg';
+		
+				var CanvasXSize = 1022;
+				var CanvasYSize = 200;
+				var speed = 10; //lower is faster
+				var scale = 1.05;
+				var y = -4.5; //vertical offset
+
+				// Main program
+				var dx = 0.75;
+				var imgW;
+				var imgH;
+				var x = 0;
+				var clearX;
+				var clearY;
+
+				img.onload = function() {
+    				imgW = img.width*scale;
+    				imgH = img.height*scale;
+    				if (imgW > CanvasXSize) { x = CanvasXSize-imgW; } // image larger than canvas
+    				if (imgW > CanvasXSize) { clearX = imgW; } // image larger than canvas
+    				else { clearX = CanvasXSize; }
+    				if (imgH > CanvasYSize) { clearY = imgH; } // image larger than canvas
+    				else { clearY = CanvasYSize; }
+    				return setInterval(draw, speed);
+				}
+
+				function draw() {
+    			//Clear Canvas
+    			ctx.clearRect(0,0,clearX,clearY);
+    			//If image is <= Canvas Size
+    			if (imgW <= CanvasXSize) {
+        			//reset, start from beginning
+        			if (x > (CanvasXSize)) { x = 0; }
+        			//draw aditional image
+        			if (x > (CanvasXSize-imgW)) { ctx.drawImage(img,x-CanvasXSize+1,y,imgW,imgH); }
+    			}
+    			//If image is > Canvas Size
+    			else {
+        		//reset, start from beginning
+        			if (x > (CanvasXSize)) { x = CanvasXSize-imgW; }
+        			//draw aditional image
+        			if (x > (CanvasXSize-imgW)) { ctx.drawImage(img,x-imgW+1,y,imgW,imgH); }
+    			}
+    			//draw image
+    			ctx.drawImage(img,x,y,imgW,imgH);
+				
+				var naam = "Jacqueline Galeazzi";
+				var welcome = "welkom";
+					ctx.fillText("Mijn naam is Jacqueline Galeazzi,", 400, 70);
+					ctx.fillText("Welkom op mijn portfolio website.", 650, 130);
+   					x += dx;
+				}
+			</script>
+    		
+          <div id="over_mij" style="margin-top:-4px; margin-bottom:-4px;">
+        		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+        		<h1>Over mij</h1>
+        		<div style="width:300px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:250px;"></div>
+                <p style="margin-top:0;"> Van kinds af aan heb ik een drang gevoeld om mij creatief te uiten, te zien aan de grote hoeveelheid stiften die ik heb verbruikt. Bij mijn studiekeuze vond ik het van belang deze creativiteit te kunnen benutten en niet 							gelimiteerd te worden. Ik stuitte op de studierichting <span class="highlight">ICT & Media Design</span> en vond daarin een wereld van ontdekkingen en nieuwe mogelijkheden. Wat mij het meest fascineerde was de invloed die technologie kan hebben op ons dagelijks leven en hoe technologie evolueert over tijd.</p>
+        
+        		<p> Vanuit mijn bacheloropleiding ben ik doorgestroomd naar de master <span class="highlight">Human-Technology Interaction (HTI)</span>. Als HTI engineer ben je bezig met onderwerpen die een diepgaande kennis van zowel menselijke als technologische aspecten vereisen. Mijn doel als HTI’er is om kennis op het gebied van de menselijke perceptie en cognitie, sociale psychologie en technologie te gebruiken om de interactie tussen mens en technologie te optimaliseren. Vaak benodigd dit onderzoek naar en de ontwikkeling van technieken die nu nog onconven- tioneel zijn, maar in de toekomst een grote rol kunnen spelen.</p>
+        
+        		<p> Ik wil nu graag een volgende stap zetten en ik ben dan ook op zoek naar een baan die het mij mogelijk maakt mijn opgedane kennis te benutten. Alhoewel ik goed zelfstandig kan werken, vind ik het nog veel leuker om samen te werken in een team. Verder kijk ik er naar uit om nieuwe ervaringen op te doen en mijn kennis uit te breiden; je bent nooit uitgeleerd.</p>
+        		<img src="images/scannen0002.jpg" width="424" height="607" alt="portrait">
+        	</div>
+  		</section>
+        
+   		<section id="page3"> 
+        	<img src="interface_images/rand2NEW.png" width="1024" height="96" alt="rand" style="margin-bottom:-4px;">
+    		<div id="opleidingen" style="height:800px;">
+        		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+       			<h1>Opleidingen</h1>
+        		<div style="width:682px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:290px;"></div>
+        		<img id="light_image" src="interface_images/lamp.jpg" width="1024" height="599" alt="achtergrond" style="position:relative; margin-top:100px;">
+        		<div id="opleidingen_text" style="position:relative; left:340px; top:-700px; width:686px;">
+        			<div id="hti">
+            			<h2>1. Master Human Technology Interaction</h2>
+            			<h3>TU/e Eindhoven, 2012 - 2015</h3>
+            			<p> Als Human-Technology Interaction (HTI) engineer ben je meestal bezig met onderwerpen die een diepgaande <span class="highlight">kennis van zowel menselijke als technologische aspecten</span> vereisen. De studierichting HTI houdt zich bezig met onderwerpen zoals <span class="highlight">gebruiksvriendelijkheid</span>, ergonomie, perceptie, cognitie, sociale psychologie en consumentengedrag. Tegelijkertijd wordt er als HTI’er van je verwacht dat je deze onderwerpen kunt koppelen aan technische kennis om zo producten te ontwikkelen die die voor het dagelijks leven van de gebruiker een verbetering opleveren.</p>
+          			</div>
+        
+        			<div id="hasselt">
+           		 		<h2 style="margin-top:30px;">2. Internationale semester</h2>
+            			<h3>UHasselt Belgie, 2014 - 2015</h3>
+            			<p>Tijdens mijn internationale semester heb ik aan de Universiteit Hasselt de volgende vakken gevolgd van de Master Informatica (richting: Human-Computer Interaction): <span class="highlight">Gebruikers- gerichte Systeemontwikkeling, Trends in de HCI, 3D Interactie en Virtuele Omgevingen, Multimediadesign, Technologieën en Tools voor User Interfaces.</span></p>
+          			</div>
+        
+        			<div id="ict">
+            			<h2 style="margin-top:30px;">3. Bachelor ICT & Media Design</h2>
+            			<h3>Fontys Hogeschool Eindhoven, 2008 - 2012</h3>
+            			<p>De studierichting ICT & Media Design richt zich op een <span class="highlight">combinatie van communicatie, ICT en design</span>. Het onderwijs is toegespitst op het bedenken en ontwerpen van <span class="highlight">toepassingen van nieuwe media</span>. Gedurende mijn bachelorstudie heb ik eveneens de minor Lifestyle gevolgd. Deze minor behandelde de ontwikkeling van intelligente systemen voor de verbetering en ondersteuning van het dagelijks leven van mensen.</p>
+          			</div>
+      			</div>
+      		</div>
+  		</section>
+    	
+        <section id="page4">
+    		<div id="projecten">
+        		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+        		<h1>Projecten</h1>
+        		<div style="width:722px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:250px;"></div>
+        		
+                <div class="imageBox"> <img src="thumbnails/wit.jpg" width="342" height="342" alt="afstudeer project"></div>
+        		
+                <div class="imageBox"> <img src="thumbnails/img1.jpg" width="342" height="342" alt="afstudeer project">
+        			<h2 class="interactiveh2">Master Thesis</h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative;">
+            			<h3 class="middle">Master thesis: In debt to a virtual other</h3>
+            			<p class="middle"><i>Oktober 2015:</i> Om met elkaar te concurreren, maken bedrijven online gebruik van gepersonaliseerde content en een persoonlijke service. Dit vereist echter het verzamelen van persoonlijke informatie van gebruikers, die informatie vaak met tegenzin prijs geven. Oorzaak van deze onwilligheid is mogelijk een gebrek van menselijke warmte en sociabiliteit in de online ervaring. <br><br>Een manier om menselijk gedrag te beïnvloeden is om overtuigingstechnieken te gebruiken. <span class="highlight">Voor mijn master thesis heb ik onderzocht of een meer menselijke interactie, d.w.z. het toepassen van de norm van wederkerigheid en het tonen van een virtueel persoon, een positief effect heeft op vertrouwen in en zelfonthulling richting de gebruikte technologie.</span> In een online experiment werden participanten door een sociale agent begeleid bij het invullen van een enquête. Deze agent kon drie verschillende visuele representaties aannemen. Voorafgaand aan de enquête ontving de helft van de participanten een gratis loterij kaartje. <br><br>De resultaten tonen een correlatie van vertrouwen met antropomorfisme en attractiviteit van de virtuele persoon. Echter gaven participanten meer informatie prijs als de interactie minder menselijk was. Een mogelijke verklaring is dat antropomorfisme het waargenomen risico van zelfonthulling verhoogt.<br><br>
+            			<img src="images/agent.jpg" width="655" height="312" alt="agents" style="margin-left:80px;"> </p>
+          			</div>
+      			</div>
+        		
+				<div class="imageBox"> <img src="thumbnails/img2.jpg" width="342" height="342" alt="onderzoeksproject project">
+        			<h2 class="interactiveh2">Onderzoeksproject</h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative;">
+            			<h3 class="right">Onderzoeksproject: Study on adaptation of robot communication strategies in changing situations</h3>
+            			<p class="right"> <img src="images/experiment_setup.jpg" alt="experiment setup" style="float:right; margin-left:50px; margin-bottom:10px; margin-top:4px;"> <i>Februari 2015:</i> De toenemende vraag naar de verzorging van zowel ouderen als kinderen en het tekort aan zorgverleners heeft geleid tot een toegenomen interesse in maatschappelijk ondersteunende robots. Om goed te functioneren moet zo een robot zowel de sociale als de fysieke omgeving waarin interacties plaats vinden begrijpen. De meeste onderzoeken naar robot interacties nemen echter plaats in laboratoria. <br><br>Net als mensen dienen robots zich aan te passen aan hun omgeving om een effectieve interactie te hebben. <span class="highlight">Met behulp van een experiment werd onderzocht in hoeverre verschillende gedragingen van een robot bruikbaar zijn om aandacht te verkrijgen van een mens in veranderende licht-, geluid- en positioneringsomstandigheden.</span> Ten tweede werd een online machine learning algoritme voor het kiezen van het optimale gedrag afhankelijk van de omgeving geanalyseerd. Hierbij werd ook het vermogen van de robot om met behulp van sensoren automatisch de omgeving vast te stellen getest. <br><br>Gepubliceerd in Social Robotics - Volume 9388 of the series Lecture Notes in Computer Science pp 654-663.</p>
+          			</div>
+      			</div>
+        		
+                <div class="imageBox" style="clear:both;"> <img src="thumbnails/img3.jpg" width="342" height="342" alt="afstudeer project">
+        			<h2 class="interactiveh2"><span>Trainingsapplicatie voor<span class='spacer'></span><br />
+          			<span class='spacer'></span>MS-Patiënten</span></h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="padding-left:150px; padding-right:835px;">
+            			<h3>Trainingsapplicatie voor MS-Patiënten</h3>
+            			<p><i>September 2014:</i> Spierverzwakking, spraakstoornissen en cognitieve stoornissen zijn veel voorkomende klachten van patiënten met Multiple Sclerose (MS). <span class="highlight">Vanuit het vak Gebruikersgerichte Systeemontwikkeling en in samenwerking met Reval (studiecentrum voor revalidatieonderzoek) werd aan ons gevraagd een prototype van een trainingsapplicatie voor MS patiënten te ontwerpen.</span> Patiënten konden deze applicatie op een tablet gebruiken om zo hun motorische en cognitieve vaardigheden te trainen. <br><br><span class="highlight">Gedurende het project hebben we gebruik gemaakt van een User Centered Design Approach.</span> Dit betekend dat de gebruiker tijdens verschillende stappen bij het project betrokken was. In de eerste fase is er met behulp van interviews en observaties informatie verzameld over de gebruiker en de applicatie. Deze informatie is gebruikt voor het maken van persona’s, scenario’s, taakmodellen en dialoogmodellen. De dialoogmodellen zijn gebruikt voor het maken van zowel een low-fidelity als een high-fidelity prototype. <br><br>
+            			<img src="images/msapp.jpg" width="824" height="425" alt="ms-applicatie"> </p>
+          			</div>
+      			</div>
+        		
+                <div class="imageBox"> <img src="thumbnails/img4.jpg" width="342" height="342" alt="afstudeer project">
+        			<h2 class="interactiveh2">Brick Builder met Leap Motion</h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative;">
+            			<h3 class="middle">Brick Builder met Leap Motion</h3>
+            			<p class="middle"><i>September 2014:</i> Tijdens dit project hebben we een Unity-omgeving ontworpen, waarbij met behulp van een <span class="highlight">Leap Motion handgebaren konden worden gebruikt om met virtuele legoblokken te bouwen</span>. Het project was onderdeel van het vak 3D Interactie en Virtuele Omgevingen. Het doel van het project bestond eruit verschillende selectie, manipulatie en navigatie uitdagingen in een 3D-omgeving vast te stellen en bijpassende oplossingen te vinden. <br><br>
+            			<video width="824" height="463" controls>
+                		<source src="video/Lego_Builder_Leap_Motion.mp4" type="video/mp4">
+                		Your browser does not support the video tag. </video>
+Meer informatie over dit project is te vinden in het <a href="pdf/DIV__Report.pdf" target="_blank">projectverslag.</a></p>
+          			</div>
+      			</div>
+        		
+                <div class="imageBox"> <img src="thumbnails/img11.jpg" width="342" height="342" alt="onderzoeksproject project">
+        			<h2 class="interactiveh2">ShareABeat</h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative;">
+            			<h3 class="right">ShareABeat</h3>
+            			<p class="right"><i>December 2014:</i> Een toenemende hoeveelheid interactie vindt plaats niet in een face-to-face setting, maar met het gebruik van communicatie technologieën. Deze zijn echter niet geschikt voor het uitvoeren van taken of sociale functies die een rijke, gedetailleerde en genuanceerde communicatie vereisen. Door het toevoegen van lichaamsfuncties aan gemedieerde communicatie, wordt de interactie persoonlijker. Bij het delen van media content is het vaak moeilijk de reactie van een andere op deze content te achterhalen. De reactie van de ontvanger is echter een belangrijk onderdeel van het delen van media. <span class="highlight">ShareABeat maakt het delen van media content op sociale platforms persoonlijk door het toevoegen van empathische annotaties.</span> Deze annotaties komen in de vorm van vibraties gebaseerd op een gemeten verhoogd hartslag van de kijker van de media content. De applicatie draait op een combinatie van smartphone en smartwatch. User studies zijn nodig om te testen of de ShareABeat applicatie daadwerkelijk het delen van media meer intiem maakt en de reactie die kijkers hebben duidelijker wordt. <br><br>
+            				<img src="images/application_rotoscope.jpg" alt="shareabeat" width="824" height="172"> 
+          			</div>
+      			</div>
+        		
+                <div class="imageBox"  style="clear:both;"> <img src="thumbnails/img5.jpg" width="342" height="342" alt="onderzoeksproject project">
+        			<h2 class="interactiveh2">Mediated Touch</h2>
+        				<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="padding-left:150px; padding-right:835px;">
+            			<h3>Mediated Touch</h3>
+            			<p style="padding-bottom:20px;"><i>December 2013:</i> Communicatiemiddelen zijn gelimiteerd in de kanalen die ze ter beschikking stellen. Afhankelijk van de relatie tussen personen kunnen de huidige middelen gebrekkig zijn. Mediated touch apparaten brengen tactiele of kinesthetische stimuli over van de ene gebruiker naar de andere, om zo aanraking op afstand mogelijk te maken. <span class="highlight">Gedurende dit project hebben we onderzoek verricht naar mediated touch apparaten, met als doel een set minimale ontwerprichtlijnen voor zulke apparaten op te stellen.</span> Wij hebben hierbij gebruik gemaakt van focusgroepen, bestaande uit internationale studenten en expatriates. <br><br>
+            			<img src="images/mediated_touch.jpg" width="824" height="333" alt="mediatedtouch"> <br>
+            			<br>
+            			<b>Enkele interessante uitkomsten</b></p>
+            			<ul>
+            				<li>Er zijn culturele verschillen in de mate en situaties waarin aanraking geaccepteerd is. </li>
+            				<li>De gebruiker moet in controle blijven, een aanraking is niet altijd gewenst. Mogelijk kan de beschikbaarheid automatisch aan de hand van locatie worden aangepast. </li>
+            				<li>Behalve een beschikbaarheidsstatus dient de gebruiker ook in te kunnen stellen met wie zij een aanraking delen, een soort contactenlijst is dus nodig. </li>
+            				<li>Een gebruiker wil weten van wie een aanraking afkomstig is en bij het versturen wil de gebruiker weten of een bericht is aangekomen. </li>
+            				<li id="lastitem">Meest gewenste manier om een aanraking te ervaren is warmte. </li>
+          				</ul>
+          			</div>
+      			</div>
+        
+        		<div class="imageBox"> <img src="thumbnails/img6.jpg" width="342" height="342" alt="afstudeer project">
+        			<h2 class="interactiveh2">Trust in Slef-similar Agents</h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative;">
+            			<h3 class="middle">Trust in Slef-similar Agents</h3>
+            			<p class="middle"> <img src="images/selfsimilar.jpg" width="400" height="168" alt="agents" style="border-style: solid; border-width:1px; float:right; margin-left:50px; margin-bottom:10px; margin-top:4px;"> <i>Juli 2013:</i> Vertrouwen in technologie zal de bereidheid bepalen om controle / besturing af te staan aan intelligente geautomatiseerde systemen (bijv. een zelfrijdende auto). Op basis van literatuuronderzoek kwamen we tot de veronderstelling dat het creëren van overeenkomsten tussen een virtuele social agent en de gebruiker een positief effect zou kunnen hebben op vertrouwen in een bepaalde technologie. In dit project hebben we gekeken of we hier bewijs voor konden vinden. De resultaten gaven aan dat <span class="highlight">participanten inderdaad meer vertrouwen hadden in de virtuele agent, als zij overeenkomsten ondervonden tussen het uiterlijk van de virtuele agent en zichzelf.</span> </p>
+          			</div>
+      			</div>
+        		
+                <div class="imageBox"> <img src="thumbnails/img7.jpg" width="342" height="342" alt="afstudeer project">
+        			<h2 class="interactiveh2">Afstudeerstage Fontys</h2>
+        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative;">
+            			<h3 class="right">Afstudeerstage Fontys bij iWebware</h3>
+            			<p class="right"><i>Februari – Juni 2012:</i> Het internetbureau iWebware ondervond dat de bedrijfswebsite niet meer aansloot op de identiteit van het bedrijf. Gedurende de stage heb ik gewerkt aan het <span class="highlight">creëren van een nieuwe branding en het toepassen van de vernieuwde huisstijl op de bedrijfswebsite.</span> Voor een deel bestond de opdracht uit onderzoek naar bijvoorbeeld de concurrentie, de klant en trends in de vormgeving van websites. Met de uit onderzoek verkregen kennis is vervolgens een nieuwe huisstijl ontworpen en de website zowel visueel als functioneel geüpdatet. <br><br>
+            			<img src="images/iwebware.jpg" width="824" height="1107" alt="iwebware_design"> </p>
+          		</div>
+      		</div>
+        
+        	<div class="imageBox" style="clear:both;"> <img src="thumbnails/img8.jpg" width="342" height="342" alt="onderzoeksproject project">
+        		<h2 class="interactiveh2">Fitness Game</h2>
+        		<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="padding-left:150px; padding-right:835px;">
+            		<h3>Fitness Game</h3>
+            		<p><i>December 2011:</i> E-fitness is gericht op fitness- en trainingsapparatuur die kinderen en jongeren op een speelse manier aanzet tot meer beweging. Voor de minor Lifestyle hebben we een prototype van een Flash game ontworpen waarbij spelers met behulp van schoppen en slaan een op hen afkomende muur van blokken kapot moesten maken. Bewegingen werden getraceerd met een Xbox Kinect. <br><br>
+            		<img src="images/brainblock.jpg" width="625" height="235" alt="brainblok" style="margin-left:100px;"> </p>
+          		</div>
+      		</div>
+            
+       		<div class="imageBox"> <img src="thumbnails/img9.jpg" width="342" height="342" alt="afstudeer project">
+        		<h2 class="interactiveh2">Ziekenhuis Rustruimte</h2>
+        		<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative;">
+            		<h3 class="middle">Ziekenhuis Rustruimte</h3>
+            		<p class="middle"><i>Juli 2011:</i> Wachtruimtes zien er vaak somber en kaal uit, ook zitten mensen hier vaak vol spanning. Om de beleving van het zitten in een wachtruimte te verbeteren hebben we een proptype rustruimte gemaakt waar met behulp van licht, natuurbeelden op de muren en geluid wachtenden tot rust kunnen komen en op andere gedachten worden gebracht. Video opnames van landschappen worden in drie delen gesplitst en over drie muren geprojecteerd. Daarbij past de kleur van het licht zich aan, aan het beeldmateriaal. <br><br>
+           			<img src="images/rust.jpg" width="490" height="280" alt="rustruimte" style="margin-left:160px;"> </p>
+          		</div>
+      		</div>
+        	
+            <div class="imageBox"> <img src="thumbnails/img10.jpg" width="342" height="342" alt="afstudeer project">
+        		<h2 class="interactiveh2">Stage Philips</h2>
+        		<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative;">
+            		<h3 class="right">Stage Philips</h3>
+            		<p class="right"><i>September 2010 - januari 2011:</i> Mijn stageopdracht bestond uit het ontwerpen van een <span class="highlight">TV user interface voor de bediening en creatie van lichtscènes</span> en het uitwerken van dit ontwerp tot een demo. Een lichtscène is hierbij een een samenspel van lampen met op elkaar afgestemde lichtsterkten en kleuren. Het idee bij deze opdracht was dat alle verlichting binnen het huis via één centraal systeem kon worden beheerd. De stage vond plaats in de context van een op domotica gericht project bij de Consumer Lifestyle afdeling van Philips. <br><br>
+            		<img src="images/final_design.jpg" width="824" height="463" alt="philips interface"><br>
+            		<br>
+            		<img src="images/final_design_calendar.jpg" width="824" height="463" alt="philips interface2"></p>
+          		</div>
+      		</div>
+      	</div>
+    	<img src="interface_images/rand.jpg" width="1024" height="96" alt="rand" style="margin-bottom:-4px; margin-top:-5px;">
+  		</section>
+    
+    	<section id="page5">
+    		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+    		<h1>Competenties</h1>
+    		<div style="width:666px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:306px;"></div>
+    		<h2>Vaardigheden met Scriptingtalen</h2>
+    		<div class="taal_item">
+        		<div id="first_item"> <img src="images/html.png" width="100" height="111" alt="htmlimg">
+        			<p>Tijdens mijn bachelorstudie heb ik les gehad in HTML (XHTML 1.0), voor het maken van websites en web-apps. Daarnaast heb ik gedurende het laatste jaar van deze studie kennis gemaakt met HTML5.</p>
+      			</div>
+      		</div>
+        	<div class="taal_item"> <img src="images/css.png" width="100" height="111" alt="htmlimg">
+        		<p>Naast HTML heb ik ook les gehad in CSS, welke wordt gebruikt voor het koppelen van stijlinformatie aan de HTML-structuur.</p>	
+    	  	</div>
+    		<div class="taal_item"> <img src="images/js.png" width="100" height="111" alt="htmlimg">
+        		<p>Webagina's opgebouwd uit puur HTML en CSS zijn vaak statisch, voor het maken van dynamische websites en applicaties heb ik geleerd JavaScript te gebruiken.</p>
+      		</div>
+    		<div class="taal_item"> <img src="images/php.png" width="100" height="111" alt="htmlimg">
+        		<p>Om pagina's dynamischer te maken kan ik naast JavaScript ook gebruik maken van PHP, hierbij denk ik onder andere aan "form handling".</p>
+      		</div>
+    		<div class="taal_item"> <img src="images/sql.png" width="100" height="111" alt="htmlimg">
+        		<p>Webcontent dient vaak opgehaald te worden uit een database. Input van de gebruiker moet daarintegen vaak opgeslagen te worden in een database. Vanuit mijn bachelorstudie heb ik geleerd voor dit soort taken gebruik te maken van SQL.</p>
+      		</div>
+    		<div class="taal_item"> <img src="images/Csharp.png" width="100" height="111" alt="htmlimg">
+        		<p>Tijdens het eerste halve jaar van mijn bachelorstudie heb ik les gehad in C#, daarnaast heb ik tijdens verschillende projecten gebruik gemaakt van deze taal.</p>
+      		</div>
+    		<div class="taal_item"> <img src="images/python.png" width="100" height="111" alt="htmlimg">
+        		<p>Python heb ik gebruikt bij mijn onderzoeksproject, voor de aansturing van en het verwerken van de sensor informatie van een robot.</p>
+      		</div>
+    		<div class="taal_item"> <img src="images/as.png" width="100" height="111" alt="htmlimg">
+        		<p>Tijdens mijn stage bij Philips heb ik gebruik gemaakt van ActionScript 3 voor het maken van een TV interface. Ik ben hierdoor bekend geworden met het princiepe van object-georiënteerd programmeren.</p>
+      		</div>
+    	
+    	    <h2>Vormgeving & Creativiteit</h2>
+    		<p>Ik zie User Interface (UI) design als een gestructureerd process, echter komt er ook creativiteit bij kijken. UI design heeft immers een visuele kant en elke interface dient zijn eigen unieke en herkenbare stijl te hebben. Als kind vond ik het al fantastisch om me bezig te houden met vormen en kleuren. Ik kan dan ook met gemak uren besteden aan het ontwerpen van een interface, zonder mij ook maar een moment te vervelen. Gedurende mijn opleidingen heb ik al voor verschillende soorten devices interfaces ontworpen (bijvoorbeeld voor de: TV, smartphone, tablet en PC). Daarnaast heb ik les gehad in: typografie, kleurgebruik, huisstijl ontwerp, webdesign, GUI design, infograpgics design, animaties en fotografie.</p>
+    		<img src="images/mobile.jpg" width="205" height="342" alt="mobile" style="margin-left:50px; margin-right:-4px;"> <img src="images/infographics.jpg" width="484" height="342" alt="IG"><img src="images/SMMK.jpg" width="235" height="342" alt="huisstijl">
+    	
+    	    <h2>Usability & Interaction design</h2>
+    		<img src="images/UCD-diagram.jpg" width="391" height="300" alt="UCD" style="border:solid 1px #000000; float:right; margin-right:50px; margin-left:50px;">
+    		<p>Interaction design is gericht op de structuur en het gedrag van een systeem. Het doel is om de gebruiker met zo weinig mogelijk acties de gewenste taak uit te laten voeren. Twee belangrijke elementen van een goed interaction design zijn consistentie en het inspelen op de verwachtingen van de gebruiker. Vanuit mijn opleidingen heb ik geleerd om bij interface ontwikkeling niet alleen te kijken naar esthetiek, maar ook voornamelijk te denken aan de usability principes (waarvan consistentie er één is). Om een goede interactie te waarborgen, start ik een project graag met een stukje gebruikersonderzoek. Uit zo een onderzoek ontstaan vaak taakmodellen en dialoogmodellen. Zulke modellen tonen de systeemfunctionaliteiten, acties die de gebruiker dient uit te voeren en de benodigde schermonderdelen. Vervolgens worden taak- en dialoogmodellen omgezet naar het eerste prototype. Het maken van makkelijk aanpasbare, tussentijdse prototypes zorgt ervoor dat bruikbaarheidsfouten en structurele fouten vroegtijdig opgespoord en aangepast kunnen worden.</p>
+    	
+        	<h2>Onderzoek & Testen</h2>
+    		<p>Het waarborgen van een goede User Experience houdt ook in dat in verschillende fasen van de System
+        Development Life Cycle onderzoek wordt verricht naar zowel de gebruiker als het product. Bij de uitvoering van
+        onderzoeksprojecten heb ik kennis opgedaan met een groot aantal onderzoeksmethoden. Zo heb ik interviews
+        gehouden met klanten en experts, gebruikers geobserveerd, experimenten uitgevoerd, focusgroepen georganiseerd, enquêtes afgenomen en prototypes getest. Daarnaast heb ik tijdens onderzoeksprojecten ook geleerd de uit onderzoek verkregen data op een statistische wijze te analyseren en uit grote hoeveelheden data specifieke conclusies te trekken.</p>
+    	
+        	<h2>Samenwerken & Zelfstandigheid</h2>
+    		<img src="images/DSC03312.JPG" width="400" height="266" alt="groepsfoto" style="margin-left:50px; margin-right:50px; float:right;">
+    		<p style="padding-bottom:100px; margin-bottom:0px;">Ik zie zelfstandigheid als een van mijn goede eigenschappen. Deze zelfstandigheid wordt mogelijk gemaakt door een gestructureerd proces aanpak en goede planning. Alhoewel ik goed zelfstandig kan werken, vind ik het nog veel leuker om samen te werken in een team. Gedurende mijn opleidingen heb ik in een groot aantal projectgroepen gewerkt. Hierbij heb ik ook met opdrachtgevers vanuit verschillende vakgebieden samengewerkt. Ik vind het leuk om kennis te delen, van elkaar te leren, elkaar te inspireren en gezamenlijk tot nieuwe oplossingen te komen. Ik vind het altijd belangrijk om binnen een team mijn steentje bij te dragen en ga dan ook niet zitten wachten totdat mij een taak opgedragen wordt.</p>
+  		</section>
+  	</div>
+<div style="width:1024px;height:200px;border:none; background:#1a161a"></div>
+</body>
+</html>
