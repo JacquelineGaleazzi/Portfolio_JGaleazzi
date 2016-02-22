@@ -365,3 +365,4 @@ a.nav-active {
 .content a:active {
     color: #e323ca;
 }
+img { -ms-interpolation-mode: bicubic; }
