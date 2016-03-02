@@ -3,6 +3,7 @@
 
 canvas {
     border:1px solid black;
+	border-bottom:none;
 }
 
 body {
@@ -21,7 +22,7 @@ h1 {
 
 h2 {
 	font-family: 'headerFont', Arial, sans-serif;
-	font-size:16pt;
+	font-size:18pt;
 	color:Black;
 }
 
@@ -32,7 +33,7 @@ H3 {
 	margin-bottom:4px;
 }
 p {
-	font-family: 'textFont', Arial, sans-serif;
+	font-family: Arial, sans-serif;
 	font-size:11pt;
 	line-height: 140%;
 	text-align:justify;
@@ -42,6 +43,14 @@ p {
 span.highlight {
 	background:#c0fcfb;	
 	color:Black;
+}
+
+span.serif {
+	display:block;
+	font-family:georgia;
+	font-size:13pt;
+	line-height: 140%;
+	text-align: left !important;
 }
 
 #over_mij {
@@ -63,7 +72,7 @@ span.highlight {
 
 #opleidingen {
 	background:White;
-	height:800px;
+	height:820px;
 }
 
 #opleidingen p,  #opleidingen h2, #opleidingen h3, #page5 h2{
@@ -84,6 +93,14 @@ span.highlight {
 
 #opleidingen h3 {
 	margin-top:6px;
+}
+
+#projecten h2 {
+	font-size:120%;
+}
+
+#projecten p {
+padding-bottom:50px;	
 }
 
 #projecten img {
@@ -290,7 +307,8 @@ a.nav-active {
 
 .expandedcontent h3{
 	font-family: 'headerFont', Arial, sans-serif;
-	font-size:16pt;
+	font-style:normal;
+	font-size:18pt;
 	color:Black;
 	margin-bottom:0;
 	margin-left:0;
@@ -298,6 +316,7 @@ a.nav-active {
 	padding-left:100px;
 	padding-right:0;
 	padding-top:10px;
+	padding-bottom:16px;
 	width:924px;	
 	background:White;
 }
@@ -365,4 +384,3 @@ a.nav-active {
 .content a:active {
     color: #e323ca;
 }
-img { -ms-interpolation-mode: bicubic; }
