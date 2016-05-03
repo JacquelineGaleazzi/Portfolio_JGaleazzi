@@ -8,7 +8,7 @@ canvas {
 
 body {
 	background: #e1e1e1;
-	width: 1024px;
+	/*width: 1024px;*/
 	margin: 0px auto;
 	color: #50434e;
 }
@@ -32,6 +32,18 @@ H3 {
 	font-size:16px;	
 	margin-bottom:4px;
 }
+
+h4 {
+	font-family:'headerFont';
+	background:white;
+	margin:0px;
+	padding-left:100px;
+	padding-top:21px;
+	padding-right:724px;
+	width:200px;
+	margin-top:-4px;
+}
+
 p {
 	font-family: Arial, sans-serif;
 	font-size:11pt;
@@ -64,27 +76,15 @@ span.serif {
 	float:left;
 }
 
-#over_mij h1{
-	width: 500px;
-	margin-left: 100px;
-	float:left;
-}
-
 #opleidingen {
 	background:White;
 	height:820px;
-}
-
-#opleidingen p,  #opleidingen h2, #opleidingen h3, #page5 h2{
-	margin-left: 50px;
-	margin-right: 50px;
 }
 
 #opleidingen h1 {
 	margin-top:0px;
 	padding-top:40px;
 	background:White;	
-	margin-left:100px;
 }
 
 #opleidingen h2 {
@@ -122,7 +122,6 @@ padding-bottom:50px;
 .imageBox { 
   	position: relative; 
     float:left;
-	width: 341px; /* for IE 6 */
 	margin-top:-4px;
 }
 
@@ -140,25 +139,12 @@ padding-bottom:50px;
    padding:10px;
    opacity: 0.6;
     filter: alpha(opacity=60); /* For IE8 and earlier */
-   width:322px;
 }
 
 .imageBox p {
 	background:White none repeat scroll 0 0;
 	border-top-width: 0;
 	margin:-4px 0 0;
-	padding: 100px;
-	width: 824px;
-}
-
-.right {
-	left:-682px;
-	position:relative;
-}
-
-.middle {
-	left:-341px;
-	position:relative;
 }
 
 #page5 {
@@ -207,9 +193,8 @@ padding-bottom:50px;
 
 .sticky{
     position: fixed;
-    top: 0;
+    /*top: 0;*/
     z-index: 100;	
-	width:1024px;
 }
 
 #logo {
@@ -229,7 +214,7 @@ nav ul {
     background-color: Black;
 	margin: 0 auto;
 	padding:0;
-	width:43%;
+	/*width:43%;*/
 	z-index:105;
 }
 
@@ -331,7 +316,6 @@ a.nav-active {
 	margin-right:50px;	
 	margin-bottom:0px;
 	margin-top:0px;
-	padding-top:34px;
 }
 
 .taal_item img {
@@ -340,11 +324,8 @@ a.nav-active {
 	margin-right:50px;
 }
 
-.taal_item{
-	padding-bottom:50px;	
+.taal_item{	
 	padding-top:10px;
-	margin-right:50px;
-	margin-left:50px;
 	border-bottom-style: solid;
 	border-bottom-color:#CCC;
 	border-bottom-width:1px;
@@ -359,11 +340,6 @@ a.nav-active {
 
 #page5 h2{
 	margin-top:30px;	
-}
-
-#page5 p {
-	margin-left:50px;
-	margin-right:50px;	
 }
 
 .content a:link {
@@ -383,4 +359,568 @@ a.nav-active {
 /* selected link */
 .content a:active {
     color: #e323ca;
+}
+
+#back-top {
+	width:1024px;
+	height:30px;
+	border:none; 
+	background:#1a161a; 
+	margin-top:0px; 
+	margin-bottom:0px; 
+	padding-top:4px; 
+	text-align: center;
+}
+
+#back-top a {
+	font-size:110%; 
+	text-decoration:none;
+}
+
+#back-top a:link {
+    color: #23a1e3;
+}
+
+#back-top a:visited {
+    color: #23a1e3;
+}
+
+#back-top a:hover {
+    color: #e323ca;
+}
+
+
+@media only screen and (max-width: 1023px) {
+	.x1024{
+		display:none;
+	}
+	
+	.x700{
+		display:block;
+		background:white;
+	}
+	
+	.x480{
+		display:none;
+	}
+	
+	body {
+		width: 700px;
+	}
+
+	nav ul {
+		width:63%;
+	}
+	
+	#over_mij p {
+		margin-left:50px;
+		width:600px;	
+	}
+	
+	img[alt="portrait"]{
+		margin-left:137px;
+		margin-bottom:28px;
+	}
+	
+	#yellowborder {
+		width:700px;	
+	}
+	 #opleidingen {
+		height:700px; 
+	 }
+	
+	#opleidingen h2, #opleidingen h3 {
+		 margin-left:50px;
+		 margin-right:50px;
+	 }
+	 
+	#opleidingen h1 {
+		 margin-left:100px;
+	}
+	
+	 #opleidingen p {
+		margin-left:50px;
+		margin-right:50px; 
+	 }
+	 
+	 #over_mij h1{
+	width: 500px;
+	margin-left: 100px;
+	float:left;
+	}
+	
+	.imageBox {
+		width: 233px;
+	}
+	
+	.thumbnail img {
+		width: 233px;
+		height: 233px;
+	}
+	
+	.imageBox h2 {
+	   width:213px;
+	}
+	
+	.imageBox p {
+		padding-left: 50px;
+		padding-right: 50px;
+		width: 600px;	
+	}
+	
+	.imageBox h3 {
+		padding-left: 50px;
+		padding-right: 50px;
+		width: 600px;	
+	}
+	
+	.right {
+	left:-466px;
+	position:relative;
+	}
+
+	.middle {
+	left:-233px;
+	position:relative;
+	}
+	
+	.imageBox img[alt*="arrow"] {
+		padding-left:100px;
+		padding-right:561px;
+	}
+	
+	.imageBox img[alt*="arrow"].middle {
+		padding-left:331px;
+		padding-right:330px;
+		left:-233px;
+	}
+	
+	.imageBox  img[alt*="arrow"].right {
+		padding-left:566px;
+		padding-right:95px;
+		left:-466px;
+	}
+		
+	video {
+		width:600px; 
+		height:337px;	
+	}
+	
+	.taal_item{
+		height:100px;
+		padding-bottom:10px;
+		border-top-style: solid;
+		border-top-color:#CCC;
+		border-top-width:1px;
+		margin-top:-1px;
+	}
+	
+	.taal_item #first_item{	
+		padding-top:0px;
+		border-top:none;
+	}
+	
+	.taal_item p{
+		padding-top:6px;
+	}
+	
+	#page5 p {
+		margin-left:25px;
+		margin-right:25px;	
+	}
+	
+	#competenties p{
+		margin-left:50px;
+		margin-right:50px;
+	}
+	
+	.taal_item img{
+		margin-top:-6px;	
+		margin-left:25px;
+		margin-right:25px;
+	}
+	
+	.sticky {
+		width:700px;
+	}
+	
+	#page5 h2{
+		margin-left: 50px;
+		margin-right: 50px;
+	}
+	
+	.taal_item{
+		margin-right:50px;
+		margin-left:50px;
+	}
+	
+	.taal_item p {
+		height:100px;
+		display: table-cell;
+    	vertical-align: middle;
+		padding-top:0px;
+	}
+	
+	.new_row .imageBox{
+		clear:both;
+	}
+	
+	img[alt*="nao"] {
+		float:right;
+		margin-left:50px;
+	}
+	
+	h4{
+		padding-left:50px;
+		padding-right:450px;	
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.x1024{
+		display:none;
+	}
+	
+	.x700{
+		display:none;
+	}
+	
+	.x480{
+		display:block;
+	}
+	
+	body {
+		width: 480px;
+	}
+
+	nav ul {
+		width:91%;
+	}
+	
+	img[alt="portrait"]{
+		margin-left:28px;
+		margin-bottom:28px;
+	}
+	
+	#over_mij p {
+		margin-left:28px;
+		width:420px;	
+	}
+	
+	#yellowborder {
+		width:480px;	
+	}
+	
+	 #opleidingen {
+		height:850px; 
+	 }
+	
+	 #opleidingen h2, #opleidingen h3 {
+		 margin-left:0px;
+		 margin-right:0px;
+	 }
+	 
+	 #opleidingen h1 {
+		 margin-left:83px;
+	 }
+	 
+	 #opleidingen p {
+		 margin-left:0px;
+		 margin-right:28px;
+	 }
+	 
+ 	#opleidingen_text {
+		 margin-left:28px;
+		 margin-left:28px;
+		 top:-720px;
+		 background:white;
+	 }
+	 
+	 #over_mij h1{
+	width: 480px;
+	margin-left: 83px;
+	}
+	
+	#projecten h1{
+		margin-left: 83px;
+	}
+	
+	#page5 h1{
+		margin-left: 78px;
+	}
+	
+	.sticky {
+		width:480px;
+	}
+	
+	#page5 h2{
+		margin-left: 28px;
+		margin-right: 28px;
+	}
+	
+	.taal_item {
+		margin-right:28px;
+		margin-left:28px;
+		height:120px;
+	}
+	
+	.taal_item img {
+		margin-left:0px;
+		margin-top:4px;	
+	}
+	
+	.taal_item p {
+		height:120px;
+		display: table-cell;
+    	vertical-align: middle;
+		padding-top:0px;
+	}
+	
+	#page5 p {
+		margin-right:0px;
+	}
+	
+	#competenties p {
+		margin-right:28px;
+		margin-left:28px;
+	}
+	
+	.imageBox{
+		width:240px;
+	}
+	
+	/**.imageBox img{
+		width:240px;
+		height:240px;	
+	}**/
+	
+	.thumbnail img {
+		width:240px;
+		height:240px;	
+	}
+	
+	.imageBox h2{
+		width:220px;	
+	}
+	
+	.new_row .imageBox{
+		clear:none;
+	}
+	.mobile_right p, .mobile_right h3, .mobile_right h4{
+		width:424px;
+		padding-left:28px;
+		padding-right:28px;
+		margin-left:-240px;	
+		left:0px;
+	}
+	
+	.mobile_left p, .mobile_left h3, .mobile_left h4{
+		width:424px;
+		padding-left:28px;
+		padding-right:28px;	
+		left:0px;
+	}
+	
+	.mobile_right img[alt*="arrow"].middle, .mobile_right img[alt*="arrow"], .mobile_right img[alt*="arrow"].right{
+		width:30px; 
+		height:30px; 
+		padding-right:105px; 
+		padding-left:345px;
+		margin-left:-240px;	
+		left:0px;
+	}
+	
+	.mobile_left img[alt*="arrow"], .mobile_left img[alt*="arrow"].middle, .mobile_left img[alt*="arrow"].right{
+		width:30px; 
+		height:30px; 
+		padding-right:345px; 
+		padding-left:105px;
+		margin-left:0px;	
+		left:0px;
+	}
+	
+	/**.mobile_right img[alt*="arrow"].middle{
+		width:30px; 
+		height:30px; 
+		padding-right:105px; 
+		padding-left:345px;
+		margin-left:0px;	
+		left:0px;
+	}
+	
+	.mobile_left img[alt*="arrow"].middle, .mobile_left img[alt*="arrow"].right{
+		width:30px; 
+		height:30px; 
+		padding-right:105px; 
+		padding-left:345px;
+		margin-left:0px;
+		left:0px;
+	}**/
+	
+	.mobile_new_row {
+		clear:both;
+	}
+	
+	h4 {
+		padding-left:50px;
+	}
+	
+	img[alt*="nao"] {
+		float:none;
+		margin-left:62px;
+	}
+	
+	video {
+		width:424px; 
+		height:238px;	
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	 #opleidingen {
+		height:820px; 
+	 }
+	 #opleidingen h2, #opleidingen h3 {
+		 margin-left:50px;
+		 margin-right:50px;
+	 }
+	 
+	 #opleidingen h1 {
+		 margin-left:100px;
+	 }
+	
+	.x1024{
+		display:block;
+	}
+	
+	.x700{
+		display:none;
+	}
+	
+	.x480{
+		display:none;
+	}
+	
+	body {
+		width: 1024px;
+	}
+
+	nav ul {
+		width:43%;
+	}
+
+	#yellowborder {
+		width:1024px;	
+	}
+	 
+	 #opleidingen_text {
+		 position:relative; 
+		 left:340px;
+		 top:-720px;
+		 width:686px;
+	 }
+	 
+	 #opleidingen p {
+		margin-left:50px;
+		margin-right:50px; 
+	 }
+	 
+	 #over_mij h1{
+	width: 500px;
+	margin-left: 100px;
+	float:left;
+}
+
+	.imageBox {
+		width: 341px;
+	}
+	
+	.thumbnail img {
+		width: 342px;
+		height: 342px;
+	}
+	
+	.imageBox h2 {
+	   width:322px;
+	}
+	
+	.imageBox p {
+		padding-left: 100px;
+		padding-right: 100px;
+		width: 824px;	
+	}
+	
+	.imageBox h3 {
+		padding-left: 100px;
+		padding-right: 100px;
+		width: 824px;	
+	}
+	
+	.right {
+	left:-682px;
+	position:relative;
+	}
+
+	.middle {
+	left:-341px;
+	position:relative;
+	}
+	
+	.imageBox img[alt*="arrow"] {
+		padding-left:150px;
+		padding-right:835px;
+	}
+	
+	.imageBox img[alt*="arrow"].middle {
+		padding-left:500px;
+		padding-right:485px;
+		left:-341px;
+	}
+	
+	.imageBox img[alt*="arrow"].right {
+		padding-left:840px;
+		padding-right:145px;
+		left:-682px;
+	}
+	
+	video {
+		width:824px; 
+		height:463px;	
+	}
+	
+	.taal_item{
+		padding-bottom:50px;
+	}
+	
+	.taal_item p{
+		padding-top:34px;	
+	}
+	
+	#page5 p {
+		margin-left:50px;
+		margin-right:50px;	
+	}
+	
+	.sticky {
+		width:1024px;
+	}
+	
+	#page5 h2{
+		margin-left: 50px;
+		margin-right: 50px;
+	}
+	
+	.taal_item{
+		margin-right:50px;
+		margin-left:50px;
+	}
+	
+	.new_row .imageBox{
+		clear:both;
+	}
+	
+	img[alt*="nao"] {
+		float:right;
+		margin-left:50px;
+	}
 }

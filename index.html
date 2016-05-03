@@ -20,8 +20,28 @@
 	if(height  < 900 || height > 1500 && imageId.src != "file:///D:/Portfolio%20JG/interface_images/lamp.jpg") {
 	imageId.src = "interface_images/lamp.jpg";      
     }
+	
+	if(height >= 5200)
+  	{
+	 	$('.sticky').css('top', 'auto');
+		$(".sticky").css("bottom", "0");
+		$('#logo').css('top', 'auto')
+		$("#logo").css("bottom", "0");
+		$('.wrapper p').css('top', 'auto')
+		$(".wrapper p").css("bottom", "0");
+  	}
+	
+	if (height < 5200)
+	{
+		$('.sticky').css('bottom', 'auto')
+		$(".sticky").css("top", "0");
+		$('#logo').css('bottom', 'auto')
+		$("#logo").css("top", "0");
+		$('.wrapper p').css('bottom', 'auto')
+		$(".wrapper p").css("top", "0");
+	}
   });
-
+  
   $(document).ready(function() {
 	var stickyNavTop = $('nav').offset().top;
 	var stickyNav = function(){
@@ -33,7 +53,8 @@
     		$('nav').removeClass('sticky'); 
 		}
   	};
- 
+ 	
+	respondCanvas();
   	stickyNav();
   	init(); 
   	$(window).scroll(function() {
@@ -95,6 +116,14 @@
         	}
     	}
   	});
+	
+	$('#back-top a').click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+			}, 800);
+			return false;
+	});
+	
   });
 
   </script>
@@ -156,6 +185,8 @@
 		collapseAll();
     	this.parentNode.parentNode.nextSibling.style.display = '';
     	this.firstChild.nodeValue = 'minder';
+		this.parentNode.parentNode.scrollIntoView(true);
+		window.scrollBy(0, -40);
   	}
 
   	if (evt && evt.preventDefault) {
@@ -195,9 +226,15 @@
   </head>
 
   <body>
+  
+  	<noscript>
+    	  <META HTTP-EQUIV="Refresh" CONTENT="0;URL=JavaScriptError.html">
+	</noscript>
+  
 	<div class="wrapper">
     <div id="nav-anchor"></div>
-    	<img id="logo" src="interface_images/logoNEW_small.png" width="44" height="30" alt="logo" style=" float:left; margin-left:14px; margin-top:8px;">
+    	 <div class="x1024"><img id="logo" src="interface_images/logoNEW_small.png" width="44" height="30" alt="logo" style=" float:left; margin-left:14px; margin-top:8px; margin-bottom:8px;"></div>
+          <div class="x700"><img id="logo" src="interface_images/logoNEW_small.png" width="44" height="30" alt="logo" style=" float:left; margin-left:14px; margin-top:8px; margin-bottom:8px;"></div>
     	<nav>
     		<ul id="top-menu">
         		<li><a href="#page2">Over mij</a></li>
@@ -206,9 +243,13 @@
         		<li><a href="#page5">Competenties</a></li>
       		</ul>
             
-          <p style="float:right; margin-left:942px; top:0px; position:fixed;">
+           <div class="x1024"><p style="float:right; margin-left:942px; top:0px; position:fixed; margin-bottom:2px;">
             	<a href="mailto:jgaleazziattu@gmail.com" target="_top"><img src="interface_images/email_square.png" width="34" height="34" alt="email_button" style="margin-right:7px; margin-top:2px;"></a><a href="http://nl.linkedin.com/in/JacquelineGaleazzi" target="_blank"><img src="interface_images/linked_in_square.png" width="34" height="34" alt="linkedIn_button" style="position:fixed; margin-right:7px; margin-top:2px;"></a>
-            </p>
+            </p></div>
+            
+           <div class="x700"><p style="float:right; margin-left:618px; top:0px; position:fixed; margin-bottom:2px;">
+            	<a href="mailto:jgaleazziattu@gmail.com" target="_top"><img src="interface_images/email_square.png" width="34" height="34" alt="email_button" style="margin-right:7px; margin-top:2px;"></a><a href="http://nl.linkedin.com/in/JacquelineGaleazzi" target="_blank"><img src="interface_images/linked_in_square.png" width="34" height="34" alt="linkedIn_button" style="position:fixed; margin-right:7px; margin-top:2px;"></a>
+            </p></div>
             
   		</nav>
   	</div>
@@ -217,27 +258,32 @@
     
   <div class="content">
     	<section id="page2">
-    		
-            <canvas id="myCanvas" width="1022" height="200"></canvas>
+    		<!--<div class="x1024"><canvas id="myCanvas" width="1022" height="200"></canvas></div>
+            <div class="x700"><canvas id="myCanvas" width="698" height="200"></canvas></div>
+            <div class="x480"><canvas id="myCanvas" width="478" height="200"></canvas></div>-->
+      		<canvas id="myCanvas"></canvas>
     		<script src="jquery-1.12.0.min.js"></script> 
     		<script>
 	    		var c = document.getElementById("myCanvas");
 				var ctx = c.getContext("2d");
-
+				var canvasSupported = !!window.HTMLCanvasElement;
+				
+				if (canvasSupported == false)
+				{
+					//canvas is not supported
+				}
 				var textnumber = 1;
 				var alpha = 0;
 				var step = 50;
 				var steps = 255;
         		var delay = 20;
         		var rgbstep = 50;
+				var CanvasXSize; 
+				var canvasYSize; 
  
         		function init() {
             		c = document.getElementById("myCanvas");
             		ctx= c.getContext("2d");
-            		ctx.font = "40pt titleFont";
-            		ctx.textAlign = "center";
-					ctx.fillStyle = "#cecece"; 
-            		ctx.textBaseline = "middle";
 			    }
  
 				var img = new Image();
@@ -248,9 +294,37 @@
 
 				img.src = 'interface_images/lang.jpg';
 				ontop.src = 'interface_images/lang2.png';
-		
-				var CanvasXSize = 1022;
-				var CanvasYSize = 200;
+				
+				$(window).resize( respondCanvas );
+
+    			function respondCanvas(){ 
+					var winWidth = $(window).width();
+					if(winWidth < 1024 && winWidth >= 701){
+						CanvasXSize = 698;
+						CanvasYSize = 200;
+						c.width = 698;
+						c.height = 200;
+						drawcanvas();
+					}
+				
+					if(winWidth < 700){
+						CanvasXSize = 478;
+						CanvasYSize = 200;
+						c.width = 478;
+						c.height = 200;
+						drawcanvas();
+					}
+				
+					if(winWidth >= 1024){
+						CanvasXSize = 1022;
+						CanvasYSize = 200;
+						c.width = 1022;
+						c.height = 200;
+						drawcanvas();
+					}
+				}
+				
+				function drawcanvas(){ 
 				var speed = 10; //lower is faster
 				var scale = 1.05;
 				var y = -4.5; //vertical offset
@@ -309,19 +383,42 @@
 				
 				var naam = "Jacqueline Galeazzi";
 				var welcome = "welkom";
-					ctx.fillText("Mijn naam is Jacqueline Galeazzi,", 400, 70);
-					ctx.fillText("Welkom op mijn portfolio website.", 650, 130);
+            		ctx.textAlign = "center";
+					ctx.fillStyle = "#cecece"; 
+            		ctx.textBaseline = "middle";
+					
+					if (CanvasXSize == 698){
+						ctx.font = "40pt titleFont";
+						ctx.fillText("Mijn naam is Jacqueline Galeazzi,", 290, 70);
+						ctx.fillText("Welkom op mijn portfolio website.", 440, 130);
+						}
+					if (CanvasXSize == 478){
+						ctx.font = "30pt titleFont";
+						ctx.fillText("Mijn naam is Jacqueline Galeazzi,", 230, 70);
+						ctx.fillText("Welkom op mijn portfolio website.", 270, 130);
+						}
+					if (CanvasXSize == 1022){
+						ctx.font = "40pt titleFont";
+						ctx.fillText("Mijn naam is Jacqueline Galeazzi,", 400, 70);
+						ctx.fillText("Welkom op mijn portfolio website.", 650, 130);
+					}
 					ctx.drawImage(ontop,x,y,imgW,imgH);
    					x += dx;
 				}
+				}
 			</script>
     		
-          <div style="width:1024px;height:4px;border:none; background:#fff253; margin-top:-5px"></div>
+          <div id="yellowborder" style="height:4px;border:none; background:#fff253; margin-top:-5px"></div>
             
           <div id="over_mij" style="margin-bottom:-4px;">
-        		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+        		 <div class="x1024"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px;  margin-left:50px;"></div></div>
+                 <div class="x700"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div></div>
+                 <div class="x480"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:28px;"></div></div>
+                 
         		<h1>Over mij</h1>
-        		<div style="width:300px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:250px;"></div>
+        		<div class="x1024"><div style="width:300px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:250px;"></div></div>
+                <div class="x700"><div style="width:400px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:250px;"></div></div>
+                <div class="x480"><div style="width:207px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:240px;"></div></div>
                 <p style="margin-top:0;"> Van kinds af aan heb ik een drang gevoeld om mij creatief te uiten, te zien aan de grote hoeveelheid stiften die ik heb verbruikt. Bij mijn studiekeuze vond ik het van belang deze creativiteit te kunnen benutten en niet 							gelimiteerd te worden. Ik stuitte op de studierichting <span class="highlight">ICT & Media Design</span> en vond daarin een wereld van ontdekkingen en nieuwe mogelijkheden. Wat mij het meest fascineerde was de invloed die technologie kan hebben op ons dagelijks leven en hoe technologie evolueert over tijd.</p>
         
         		<p> Vanuit mijn bacheloropleiding ben ik doorgestroomd naar de master <span class="highlight">Human-Technology Interaction (HTI)</span>. Als HTI engineer ben je bezig met onderwerpen die een diepgaande kennis van zowel menselijke als technologische aspecten vereisen. Mijn doel als HTI’er is om kennis op het gebied van de menselijke perceptie en cognitie, sociale psychologie en technologie te gebruiken om de interactie tussen mens en technologie te optimaliseren. Vaak benodigd dit onderzoek naar en de ontwikkeling van technieken die nu nog onconven- tioneel zijn, maar in de toekomst een grote rol kunnen spelen.</p>
@@ -332,13 +429,21 @@
   		</section>
         
    		<section id="page3"> 
-        	<img src="interface_images/rand2NEW.png" width="1024" height="96" alt="rand" style="margin-bottom:-4px;">
-    		<div id="opleidingen" style="height:820px;">
-        		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+        	<div class="x1024"><img src="interface_images/rand2NEW.png" width="1024" height="96" alt="rand" style="margin-bottom:-4px;"></div>
+            <div class="x700"><img src="interface_images/rand2NEW_tablet.png" width="700" height="66" alt="rand" style="margin-bottom:-4px;"></div>
+            <div class="x480"><img src="interface_images/rand2NEW_phone.png" width="480" height="45" alt="rand" style="margin-bottom:-4px;"></div>
+    		
+            <div id="opleidingen">
+            
+        		 <div class="x1024"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px;  margin-left:50px;"></div></div>
+                 <div class="x700"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div></div>
+                 <div class="x480"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:28px;"></div></div>
        			<h1>Opleidingen</h1>
-        		<div style="width:682px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:290px;"></div>
-        		<img id="light_image" src="interface_images/lamp.jpg" width="1024" height="599" alt="achtergrond" style="position:relative; margin-top:120px;">
-        		<div id="opleidingen_text" style="position:relative; left:340px; top:-720px; width:686px;">
+        		<div class="x1024"><div style="width:682px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:290px;"></div></div>
+                <div class="x700"><div style="width:358px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:290px;"></div></div>
+                <div class="x480"><div style="width:170px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:280px;"></div></div>
+        		<div class="x1024"><img id="light_image" src="interface_images/lamp.jpg" width="1024" height="599" alt="achtergrond" style="position:relative; margin-top:120px;"></div>
+        		<div id="opleidingen_text">
         			<div id="hti">
             			<h2 style="margin-top:0px;">1. Master Human Technology Interaction</h2>
             			<h3>TU/e Eindhoven, 2012 - 2015</h3>
@@ -358,140 +463,253 @@
           			</div>
       			</div>
       		</div>
+              <div class="x700"><img src="interface_images/rand_tablet2.jpg" width="700" height="66" alt="rand" style="margin-bottom:-4px; padding-top:10px; background:white;"></div>
+            <div class="x480"><img src="interface_images/rand_phone2.jpg" width="480" height="45" alt="rand" style="margin-bottom:-4px;"></div>
   		</section>
     	
         <section id="page4">
     		<div id="projecten">
-        		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+        		
+
+<div class="x1024"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div></div>
+<div class="x700"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div></div>
+<div class="x480"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:28px;"></div></div>
         		<h1>Projecten</h1>
-        		<div style="width:722px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:250px;"></div>
         		
-                <div class="imageBox"> <img src="thumbnails/wit.jpg" width="342" height="342" alt="afstudeer project"></div>
+<div class="x1024"><div style="width:722px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:250px;"></div></div>
+<div class="x700"><div style="width:400px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:250px;"></div></div>
+<div class="x480"><div style="width:210px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:240px;"></div></div>
         		
-                <div class="imageBox"> <img src="thumbnails/img1.jpg" width="342" height="342" alt="afstudeer project">
-        			<h2 class="interactiveh2">Master Thesis</h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative; border-top:1px solid #d4d4d4;">
+                <div class="imageBox"> <div class="thumbnail"><img src="thumbnails/wit.jpg" alt="afstudeer project"></div></div>
+        		
+                <div class="imageBox"> <div class="thumbnail"><img src="thumbnails/img1.jpg" alt="afstudeer project"></div>
+                    <h2 class="interactiveh2">Master Thesis</h2>
+                    <div class="mobile_right">
+        			<div class="expandedcontent"><img class="middle" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
             			<h3 class="middle">Master thesis: In debt to a virtual other</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div></div>
+                         <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-233px;"></div></div>
+                          <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; margin-left:-240px;"></div></div>
             			<p class="middle">
-                        <span class="serif"><i>Oktober 2015:</i> Om met elkaar te concurreren, maken bedrijven online gebruik van gepersonaliseerde content en een persoonlijke service. Dit vereist echter het verzamelen van persoonlijke informatie van gebruikers, die informatie vaak met tegenzin prijs geven.</span><br>Oorzaak van deze onwilligheid is mogelijk een gebrek van menselijke warmte en sociabiliteit in de online ervaring. Een manier om menselijk gedrag te beïnvloeden is om overtuigingstechnieken te gebruiken. <span class="highlight">Voor mijn master thesis heb ik onderzocht of een meer menselijke interactie, d.w.z. het toepassen van de norm van wederkerigheid en het tonen van een virtueel persoon, een positief effect heeft op vertrouwen in en zelfonthulling richting de gebruikte technologie.</span> In een online experiment werden participanten door een sociale agent begeleid bij het invullen van een enquête. Deze agent kon drie verschillende visuele representaties aannemen. Voorafgaand aan de enquête ontving de helft van de participanten een gratis loterij kaartje. <br><br>De resultaten tonen een correlatie van vertrouwen met antropomorfisme en attractiviteit van de virtuele persoon. Echter gaven participanten meer informatie prijs als de interactie minder menselijk was. Een mogelijke verklaring is dat antropomorfisme het waargenomen risico van zelfonthulling verhoogt.<br><br>
-            			<img src="images/agent.jpg" width="655" height="312" alt="agents" style="margin-left:80px;"> </p>
+                        <span class="serif"><i>Oktober 2015:</i> Om met elkaar te concurreren, maken bedrijven online gebruik van gepersonaliseerde content en een persoonlijke service. Dit vereist echter het verzamelen van persoonlijke informatie van gebruikers, die informatie vaak met tegenzin prijs geven.</span><br>Oorzaak van deze onwilligheid is mogelijk een gebrek van menselijke warmte en sociabiliteit in de online ervaring. Een manier om menselijk gedrag te beïnvloeden is om overtuigingstechnieken te gebruiken. <span class="highlight">Voor mijn master thesis heb ik onderzocht of een meer menselijke interactie, d.w.z. het toepassen van de norm van wederkerigheid en het tonen van een virtueel persoon, een positief effect heeft op vertrouwen in en zelfonthulling richting de gebruikte technologie.</span> In een online experiment werden participanten door een sociale agent begeleid bij het invullen van een enquête. Deze agent kon drie verschillende visuele representaties aannemen. Voorafgaand aan de enquête ontving de helft van de participanten een gratis loterij kaartje. <br><br>De resultaten tonen een correlatie van vertrouwen met antropomorfisme en attractiviteit van de virtuele persoon. Echter gaven participanten meer informatie prijs als de interactie minder menselijk was. Een mogelijke verklaring is dat antropomorfisme het waargenomen risico van zelfonthulling verhoogt.</p>
+            			<div class="x1024"><img src="images/agent.jpg" width="655" height="312" alt="agents" style="margin-left:-341px; padding-bottom:50px; padding-left:184px; padding-right:185px;"></div> 
+                        <div class="x700"><img src="images/agent.jpg" width="600" height="286" alt="agents" style="margin-left:-233px; padding-bottom:50px; padding-left:50px; padding-right:50px;"></div> 
+                        <div class="x480"><img src="images/agent.jpg" width="424" height="202" alt="agents" style="margin-left:-240px; padding-bottom:50px; padding-left:28px; padding-right:28px;"></div> 
           			</div>
       			</div>
-        		
-				<div class="imageBox"> <img src="thumbnails/img2.jpg" width="342" height="342" alt="onderzoeksproject project">
-        			<h2 class="interactiveh2">Onderzoeksproject</h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative; border-top:1px solid #d4d4d4;">
+        		</div>
+				<div class="mobile_new_row"><div class="imageBox"> <div class="thumbnail"><img src="thumbnails/img2.jpg" alt="onderzoeksproject project"></div>
+                    <h2 class="interactiveh2">Onderzoeksproject</h2>
+                    <div class="mobile_left">
+        			<div class="expandedcontent"><img class="right" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
             			<h3 class="right">Onderzoeksproject: Robot communication strategies in changing situations</h3>
-                      <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div>
-            			<p class="right"><img src="images/nao.png" width="300" height="211" alt="nao" style="float:right; margin-left:50px; margin-bottom:10px; margin-top:4px;"><span class="serif"><i>Februari 2015:</i> De toenemende vraag naar de verzorging van zowel ouderen als kinderen en het tekort aan zorgverleners heeft geleid tot een toegenomen interesse in maatschappelijk ondersteunende robots.</span><br> Om goed te functioneren moet zo een robot zowel de sociale als de fysieke omgeving waarin interacties plaats vinden begrijpen. De meeste onderzoeken naar robot interacties nemen echter plaats in laboratoria. Net als mensen dienen robots zich aan te passen aan hun omgeving om een effectieve interactie te hebben. <span class="highlight">Met behulp van een experiment werd onderzocht in hoeverre verschillende gedragingen van een robot bruikbaar zijn om aandacht te verkrijgen van een mens in veranderende licht-, geluid- en positioneringsomstandigheden.</span> Ten tweede werd een online machine learning algoritme voor het kiezen van het optimale gedrag afhankelijk van de omgeving geanalyseerd. Hierbij werd ook het vermogen van de robot om met behulp van sensoren automatisch de omgeving vast te stellen getest. <br><br>Gepubliceerd in Social Robotics - Volume 9388 of the series Lecture Notes in Computer Science pp 654-663.</p>
+                       <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div></div>
+                      <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-466px;"></div></div>
+                      <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc;"></div></div>
+            			<p class="right"><img src="images/nao.png" width="300" height="211" alt="nao" style="margin-bottom:10px; margin-top:4px;"><span class="serif"><i>Februari 2015:</i> De toenemende vraag naar de verzorging van zowel ouderen als kinderen en het tekort aan zorgverleners heeft geleid tot een toegenomen interesse in maatschappelijk ondersteunende robots.</span><br> Om goed te functioneren moet zo een robot zowel de sociale als de fysieke omgeving waarin interacties plaats vinden begrijpen. De meeste onderzoeken naar robot interacties nemen echter plaats in laboratoria. Net als mensen dienen robots zich aan te passen aan hun omgeving om een effectieve interactie te hebben. <span class="highlight">Met behulp van een experiment werd onderzocht in hoeverre verschillende gedragingen van een robot bruikbaar zijn om aandacht te verkrijgen van een mens in veranderende licht-, geluid- en positioneringsomstandigheden.</span> Ten tweede werd een online machine learning algoritme voor het kiezen van het optimale gedrag afhankelijk van de omgeving geanalyseerd. Hierbij werd ook het vermogen van de robot om met behulp van sensoren automatisch de omgeving vast te stellen getest. <br><br>Gepubliceerd in Social Robotics - Volume 9388 of the series Lecture Notes in Computer Science pp 654-663.</p>
           			</div>
       			</div>
-        		
-                <div class="imageBox" style="clear:both;"> <img src="thumbnails/img3.jpg" width="342" height="342" alt="afstudeer project">
+        		</div>
+                </div>
+             <div class="new_row"><div class="imageBox"> <div class="thumbnail"><img src="thumbnails/img3.jpg" alt="afstudeer project"></div>
         			<h2 class="interactiveh2"><span>Trainingsapplicatie voor<span class='spacer'></span><br />
           			<span class='spacer'></span>MS-Patiënten</span></h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="padding-left:150px; padding-right:835px; border-top:1px solid #d4d4d4;">
+        			<div class="mobile_right">
+                    <div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="border-top:1px solid #d4d4d4;">
             			<h3>Trainingsapplicatie voor MS-Patiënten</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc;"></div>
-            			<p><span class="serif"><i>September 2014:</i> Spierverzwakking, spraakstoornissen en cognitieve stoornissen zijn veel voorkomende klachten van patiënten met Multiple Sclerose (MS).</span><br><span class="highlight">Vanuit het vak Gebruikersgerichte Systeemontwikkeling en in samenwerking met Reval (studiecentrum voor revalidatie- onderzoek) werd aan ons gevraagd een prototype van een trainingsapplicatie voor MS patiënten te ontwerpen.</span> Patiënten konden deze applicatie op een tablet gebruiken om zo hun motorische en cognitieve vaardigheden te trainen.<br><br>Gedurende het project hebben we gebruik gemaakt van een User Centered Design Approach. Dit betekend dat de gebruiker tijdens verschillende stappen bij het project betrokken was. In de eerste fase is er met behulp van interviews en observaties informatie verzameld over de gebruiker en de applicatie. Deze informatie is gebruikt voor het maken van persona’s, scenario’s, taakmodellen en dialoogmodellen. De dialoogmodellen zijn gebruikt voor het maken van zowel een low-fidelity als een high- fidelity prototype. <br><br>
-            			<img src="images/msapp.jpg" width="824" height="425" alt="ms-applicatie"> </p>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc;"></div></div>
+                         <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc;"></div></div>
+                         <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; margin-left:-240px;"></div></div>
+            			<p><span class="serif"><i>September 2014:</i> Spierverzwakking, spraakstoornissen en cognitieve stoornissen zijn veel voorkomende klachten van patiënten met Multiple Sclerose (MS).</span><br><span class="highlight">Vanuit het vak Gebruikersgerichte Systeemontwikkeling en in samenwerking met Reval (studiecentrum voor revalidatie- onderzoek) werd aan ons gevraagd een prototype van een trainingsapplicatie voor MS patiënten te ontwerpen.</span> Patiënten konden deze applicatie op een tablet gebruiken om zo hun motorische en cognitieve vaardigheden te trainen.<br><br>Gedurende het project hebben we gebruik gemaakt van een User Centered Design (UCD) Approach. Dit betekend dat de gebruiker tijdens verschillende stappen bij het project betrokken was. </p>
+                        
+                      <h3>UCD proces</h3>
+                      <h4>1. Gebruikersonderzoek</h4>
+                       <p> In de eerste fase van het project is er met behulp van interviews en observaties informatie verzameld over de gebruiker en de applicatie. Deze informatie is gebruikt voor het maken van <a href="pdf/DIV__Persona's.pdf" target="_blank">persona's</a>, <a href="pdf/Scenario.pdf" target="_blank">scenario's</a> en een storyboard.</p>
+               		   <div class="x1024"><img src="images/storyboard.jpg" width="824" height="599" alt="storyboard" style="padding-left:100px; padding-right:100px;  padding-bottom:50px;"></div>
+                       <div class="x700"><img src="images/storyboard.jpg" width="600" height="436" alt="storyboard" style="padding-left:50px; padding-right:50px;  padding-bottom:50px;"></div>
+                       <div class="x480"><img src="images/storyboard.jpg" width="424" height="308" alt="storyboard" style="padding-left:28px; padding-right:28px;  padding-bottom:50px; margin-left:-240px;"></div>
+<h4>2. Interactie analyse</h4>
+                      <p>Met behulp van informatie verkregen uit het gebruikersonderzoek werden taakmodellen en dialoogmodellen ontworpen. Taakmodellen tonen de structuur, volgorde en onderlinge relaties tussen taken. In een dialoogmodel worden de taken van het taakmodel aan interface elementen gekoppeld. </p>
+                        <div class="x1024"><img src="images/taakmodel_therapist.jpg" width="824" height="391" alt="taakmodel" style="margin-left:100px; margin-right:100px;  margin-bottom:50px; border:solid 1px black;"></div>
+                         <div class="x700"><img src="images/taakmodel_therapist.jpg" width="600" height="285" alt="taakmodel" style="margin-left:50px; margin-right:50px;  margin-bottom:50px; border:solid 1px black;"></div>
+                         <div class="x480"><img src="images/taakmodel_therapist.jpg" width="424" height="201" alt="taakmodel" style="margin-left:-212px; margin-right:28px;  margin-bottom:50px; border:solid 1px black;"></div>
+                         
+                      <div class="x1024"><img src="images/Dialoogmodel_patientNEW.jpg" width="824" height="428" alt="dialoogmodel" style="margin-left:100px; margin-right:100px;  margin-bottom:50px; border:solid 1px black;"></div>
+                      <div class="x700"><img src="images/Dialoogmodel_patientNEW.jpg" width="600" height="312" alt="dialoogmodel" style="margin-left:50px; margin-right:50px;  margin-bottom:50px; border:solid 1px black;"></div>
+                      <div class="x480"><img src="images/Dialoogmodel_patientNEW.jpg" width="424" height="276" alt="dialoogmodel" style="margin-left:-212px; margin-right:28px;  margin-bottom:50px; border:solid 1px black;"></div>
+<h4>3. Prototyping</h4>
+                     <p>De dialoogmodellen zijn gebruikt voor het maken van zowel een low-fidelity als een high- fidelity prototype. Het low-fidelity prototype bestond uit een filmpje van een paper-prototype. Aan de hand van feedback van de opdrachtgever hebben we het low-fidelity prototype vervolgens omgezet in een high-fidelity prototype. Bij de realisatie van dit prototype heb ik gebruik gemaakt van het programma Axure RP. </p>
+                      <div class="x1024"><img src="images/low fidelity prototype2 4-11-2014.JPG" width="824" height="618" alt="low-fed" style="padding-left:100px; padding-right:100px; padding-bottom:50px;"></div>
+                      <div class="x700"><img src="images/low fidelity prototype2 4-11-2014.JPG" width="600" height="450" alt="low-fed" style="padding-left:50px; padding-right:50px; padding-bottom:50px;"></div>
+                      <div class="x480"><img src="images/low fidelity prototype2 4-11-2014.JPG" width="424" height="318" alt="low-fed" style="padding-left:28px; padding-right:28px; padding-bottom:50px; margin-left:-240px;"></div>
+                      
+            			<div class="x1024"><img src="images/msapp.jpg" width="824" height="425" alt="ms-applicatie" style="padding-left:100px; padding-right:100px; padding-bottom:50px;"></div> 
+                      <div class="x700"><img src="images/msapp.jpg" width="600" height="309" alt="ms-applicatie" style="padding-left:50px; padding-right:50px; padding-bottom:50px;"></div> 
+                      <div class="x480"><img src="images/msapp.jpg" width="424" height="218" alt="ms-applicatie" style="padding-left:28px; padding-right:-212px; padding-bottom:50px; margin-left:-240px;"></div>
+                      
+                        <div class="x1024"><img src="images/msapp2.jpg" width="824" height="466" alt="msapp2" style="margin-left:100px; margin-right:100px; margin-bottom:50px; border:solid 1px black;"></div>
+                        <div class="x700"><img src="images/msapp2.jpg" width="600" height="339" alt="msapp2" style="margin-left:50px; margin-right:50px; margin-bottom:50px; border:solid 1px black;"></div>
+                        <div class="x480"><img src="images/msapp2.jpg" width="424" height="240" alt="msapp2" style="margin-left:-212px; margin-right:28px; margin-bottom:50px; border:solid 1px black;"></div>
+                        
+<h4>4. Usability test</h4>
+                        <p>Tijdens een evaluatie van het high-fidelity prototype heb ik het gebruik van de applicatie door studenten en therapeuten geobserveerd. Na het doorlopen van een aantal opdrachten met de applicatie, werden de testpersonen gevraagd om een korte vragenlijst in te vullen. Aan de hand van de evaluatie zijn een aantal verbeterpunten opgesteld.</p> 
+                      <div class="x1024"><img src="images/usability tests 16-12-2014.JPG" width="824" height="464" alt="usability_test" style="padding-left:100px; padding-right:100px; padding-bottom:50px;"></div>
+                      <div class="x700"><img src="images/usability tests 16-12-2014.JPG" width="600" height="338" alt="usability_test" style="padding-left:50px; padding-right:50px; padding-bottom:50px;"></div>
+                      <div class="x480"><img src="images/usability tests 16-12-2014.JPG" width="424" height="239" alt="usability_test" style="padding-left:28px; padding-right:28px; padding-bottom:50px; margin-left:-240px;"></div>
           			</div>
       			</div>
-        		
-                <div class="imageBox"> <img src="thumbnails/img4.jpg" width="342" height="342" alt="afstudeer project">
+        		</div>
+                </div>
+                <div class="mobile_new_row"><div class="imageBox"><div class="thumbnail"><img src="thumbnails/img4.jpg" alt="afstudeer project"></div>
         			<h2 class="interactiveh2">Brick Builder met Leap Motion</h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative; border-top:1px solid #d4d4d4;">
+        			<div class="mobile_left">
+                    <div class="expandedcontent"><img class="middle" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style=" position:relative; border-top:1px solid #d4d4d4;">
             			<h3 class="middle">Brick Builder met Leap Motion</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div></div>
+                        <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-233px;"></div></div> 
+                        <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc;"></div></div>
             			<p class="middle"><span class="serif"><i>September 2014:</i> Met de komst van technieken zoals de Oculus Rift speelt 3D interactie een steeds grotere rol bij het ontwikkelen van games.</span><br>Tijdens dit project hebben we een Unity-omgeving ontworpen, waarbij met behulp van een <span class="highlight">Leap Motion handgebaren konden worden gebruikt om met virtuele legoblokken te bouwen</span>. Het project was onderdeel van het vak 3D Interactie en Virtuele Omgevingen. Het doel van het project bestond eruit verschillende selectie, manipulatie en navigatie uitdagingen in een 3D-omgeving vast te stellen en bijpassende oplossingen te vinden.<br><br>
-            			<video width="824" height="463" controls>
+            			<video controls>
                 		<source src="video/Lego_Builder_Leap_Motion.mp4" type="video/mp4">
                 		Your browser does not support the video tag. </video>
 Meer informatie over dit project is te vinden in het <a href="pdf/DIV__Report.pdf" target="_blank">projectverslag.</a></p>
+          			
           			</div>
       			</div>
-        		
-                <div class="imageBox"> <img src="thumbnails/img11.jpg" width="342" height="342" alt="onderzoeksproject project">
+        		</div>
+                </div>
+                <div class="imageBox"><div class="thumbnail"> <img src="thumbnails/img11.jpg" alt="onderzoeksproject project"></div>
         			<h2 class="interactiveh2">ShareABeat</h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative; border-top:1px solid #d4d4d4;">
+        			<div class="mobile_right">
+                    <div class="expandedcontent"><img class="right" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
             			<h3 class="right">ShareABeat</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div>
-            			<p class="right"><span class="serif"><i>December 2014:</i> Een toenemende hoeveelheid interactie vindt plaats niet in een face-to-face setting, maar met het gebruik van communicatie technologieën. Deze zijn echter niet geschikt voor het uitvoeren van taken of sociale functies die een rijke, gedetailleerde en genuanceerde communicatie vereisen.</span><br>Door het toevoegen van lichaamsfuncties aan gemedieerde communicatie, wordt de interactie persoonlijker. Bij het delen van media content is het vaak moeilijk de reactie van een andere op deze content te achterhalen. De reactie van de ontvanger is echter een belangrijk onderdeel van het delen van media. <span class="highlight">ShareABeat maakt het delen van media content op sociale platforms persoonlijk door het toevoegen van empathische annotaties.</span> Deze annotaties komen in de vorm van vibraties gebaseerd op een gemeten verhoogd hartslag van de kijker van de media content. De applicatie draait op een combinatie van smartphone en smartwatch. User studies zijn nodig om te testen of de ShareABeat applicatie daadwerkelijk het delen van media meer intiem maakt en de reactie die kijkers hebben duidelijker wordt. <br><br>
-            				<img src="images/application_rotoscope.jpg" alt="shareabeat" width="824" height="172"> </p>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div></div>
+                         <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-466px;"></div></div>
+                         <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; margin-left:-240px;"></div></div> 
+            			<p class="right"><span class="serif"><i>December 2014:</i> Een toenemende hoeveelheid interactie vindt plaats niet in een face-to-face setting, maar met het gebruik van communicatie technologieën. Deze zijn echter niet geschikt voor het uitvoeren van taken of sociale functies die een rijke, gedetailleerde en genuanceerde communicatie vereisen.</span><br>Door het toevoegen van lichaamsfuncties aan gemedieerde communicatie, wordt de interactie persoonlijker. Bij het delen van media content is het vaak moeilijk de reactie van een andere op deze content te achterhalen. De reactie van de ontvanger is echter een belangrijk onderdeel van het delen van media. <span class="highlight">ShareABeat maakt het delen van media content op sociale platforms persoonlijk door het toevoegen van empathische annotaties.</span> Deze annotaties komen in de vorm van vibraties gebaseerd op een gemeten verhoogd hartslag van de kijker van de media content. De applicatie draait op een combinatie van smartphone en smartwatch. User studies zijn nodig om te testen of de ShareABeat applicatie daadwerkelijk het delen van media meer intiem maakt en de reactie die kijkers hebben duidelijker wordt. </p>
+            				<div class="x1024"><img src="images/application_rotoscope.jpg" alt="shareabeat" width="824" height="172" style="margin-left:-682px; padding-left:100px; padding-right:100px; padding-bottom:50px;"></div> 
+                            <div class="x700"><img src="images/application_rotoscope.jpg" alt="shareabeat" width="600" height="125" style="padding-left:50px; padding-right:50px; padding-bottom:50px; margin-left:-466px;"></div> 
+                             <div class="x480"><img src="images/application_rotoscope.jpg" alt="shareabeat" width="424" height="88" style="padding-left:28px; padding-right:28px; padding-bottom:50px; margin-left:-240px;"></div> 
           			</div>
       			</div>
-        		
-                <div class="imageBox"  style="clear:both;"> <img src="thumbnails/img5.jpg" width="342" height="342" alt="onderzoeksproject project">
+        		</div>
+              <div class="mobile_new_row"> <div class="new_row"> <div class="imageBox"><div class="thumbnail"> <img src="thumbnails/img5.jpg" alt="onderzoeksproject project"></div>
         			<h2 class="interactiveh2">Mediated Touch</h2>
-        				<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="padding-left:150px; padding-right:835px; border-top:1px solid #d4d4d4;">
+        				<div class="mobile_left">
+                        <div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="border-top:1px solid #d4d4d4;">
             			<h3>Mediated Touch</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc;"></div>
-            			<p><span class="serif"><i>December 2013:</i> Communicatiemiddelen zijn gelimiteerd in de kanalen die ze ter beschikking stellen. Afhankelijk van de relatie tussen personen kunnen de huidige middelen gebrekkig zijn.</span><br>Mediated touch apparaten brengen tactiele of kinesthetische stimuli over van de ene gebruiker naar de andere, om zo aanraking op afstand mogelijk te maken. <span class="highlight">Gedurende dit project hebben we onderzoek verricht naar mediated touch apparaten, met als doel een set minimale ontwerprichtlijnen voor zulke apparaten op te stellen.</span> Wij hebben hierbij gebruik gemaakt van focus- groepen, bestaande uit internationale studenten en expatriates. <br><br>
-            			<img src="images/mediated_touch.jpg" width="824" height="333" alt="mediatedtouch">
-                        </p>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc;"></div></div>
+                         <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc;"></div></div> 
+                         <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc;"></div></div>
+            			<p><span class="serif"><i>December 2013:</i> Communicatiemiddelen zijn gelimiteerd in de kanalen die ze ter beschikking stellen. Afhankelijk van de relatie tussen personen kunnen de huidige middelen gebrekkig zijn.</span><br>Mediated touch apparaten brengen tactiele of kinesthetische stimuli over van de ene gebruiker naar de andere, om zo aanraking op afstand mogelijk te maken. <span class="highlight">Gedurende dit project hebben we onderzoek verricht naar mediated touch apparaten, met als doel een set minimale ontwerprichtlijnen voor zulke apparaten op te stellen.</span> Wij hebben hierbij gebruik gemaakt van focus- groepen, bestaande uit internationale studenten en expatriates. </p>
+            			<div class="x1024"><img src="images/mediated_touch.jpg" width="824" height="333" alt="mediatedtouch" style="padding-left:100px; padding-right:100px; padding-bottom:50px;"></div>
+                        <div class="x700"><img src="images/mediated_touch.jpg" width="600" height="242" alt="mediatedtouch" style="padding-left:50px; padding-right:50px; padding-bottom:50px;"></div>
+                        <div class="x480"><img src="images/mediated_touch.jpg" width="424" height="171" alt="mediatedtouch" style="padding-left:28px; padding-right:28px; padding-bottom:50px;"></div>
           			</div>
       			</div>
-        
-        		<div class="imageBox"> <img src="thumbnails/img6.jpg" width="342" height="342" alt="afstudeer project">
+        		</div>
+                </div>
+                </div>
+        		<div class="imageBox"><div class="thumbnail"> <img src="thumbnails/img6.jpg" alt="afstudeer project"></div>
         			<h2 class="interactiveh2">Trust in Slef-similar Agents</h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative; border-top:1px solid #d4d4d4;">
+        			<div class="mobile_right">
+                    <div class="expandedcontent"><img class="middle" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
             			<h3 class="middle">Trust in Slef-similar Agents</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div>
-            			<p class="middle"><span class="serif"><i>Juli 2013:</i> Vertrouwen in technologie zal de bereidheid bepalen om controle / besturing af te staan aan intelligente geautomatiseerde systemen (bijv. een zelfrijdende auto).</span><br> Op basis van literatuuronderzoek kwamen we tot de veronderstelling dat het creëren van overeenkomsten tussen een virtuele social agent en de gebruiker een positief effect zou kunnen hebben op vertrouwen in een bepaalde technologie. In dit project hebben we gekeken of we hier bewijs voor konden vinden. Tijdens een experiment voerden participanten twee vertrouwens spellen uit met als tweede speler een social agent. De helft van de participanten speelde hierbij met een agent die bestond uit een morph van het eigen gezicht met een standaard gezicht. De resultaten gaven aan dat <span class="highlight">participanten inderdaad meer vertrouwen hadden in de virtuele agent, als zij overeenkomsten ondervonden tussen het uiterlijk van de virtuele agent en zichzelf.</span><br><br> 
-                        <img src="images/morph.jpg" width="824" height="249" alt="agents" style="border:none; margin-top:4px;"></p>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div></div>
+                         <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-233px;"></div></div> 
+                         <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; margin-left:-240px;"></div></div>
+            			<p class="middle"><span class="serif"><i>Juli 2013:</i> Vertrouwen in technologie zal de bereidheid bepalen om controle / besturing af te staan aan intelligente geautomatiseerde systemen (bijv. een zelfrijdende auto).</span><br> Op basis van literatuuronderzoek kwamen we tot de veronderstelling dat het creëren van overeenkomsten tussen een virtuele social agent en de gebruiker een positief effect zou kunnen hebben op vertrouwen in een bepaalde technologie. In dit project hebben we gekeken of we hier bewijs voor konden vinden. Tijdens een experiment voerden participanten twee vertrouwens spellen uit met als tweede speler een social agent. De helft van de participanten speelde hierbij met een agent die bestond uit een morph van het eigen gezicht met een standaard gezicht. De resultaten gaven aan dat <span class="highlight">participanten inderdaad meer vertrouwen hadden in de virtuele agent, als zij overeenkomsten ondervonden tussen het uiterlijk van de virtuele agent en zichzelf.</span></p>
+                       <div class="x1024"><img src="images/morph.jpg" width="824" height="249" alt="agents" style=" border:none; padding-left:100px; padding-right:100px; padding-bottom:50px; margin-left:-341px;"></div>
+                        <div class="x700"><img src="images/morph.jpg" width="600" height="181" alt="agents" style=" border:none; padding-left:50px; padding-right:50px; padding-bottom:50px; margin-left:-233px;"></div>
+                        <div class="x480"><img src="images/morph.jpg" width="424" height="128" alt="agents" style=" border:none; padding-left:28px; padding-right:28px; padding-bottom:50px; margin-left:-240px;"></div>
           			</div>
       			</div>
-        		
-                <div class="imageBox"> <img src="thumbnails/img7.jpg" width="342" height="342" alt="afstudeer project">
+        		</div>
+                <div class="mobile_new_row"><div class="imageBox"><div class="thumbnail"> <img src="thumbnails/img7.jpg" alt="afstudeer project"></div>
         			<h2 class="interactiveh2">Afstudeerstage Fontys</h2>
-        			<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative; border-top:1px solid #d4d4d4;">
+        			<div class="mobile_left">
+                    <div class="expandedcontent"><img class="right" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
             			<h3 class="right">Afstudeerstage Fontys bij iWebware</h3>
-                         <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div>
-            			<p class="right"><span class="serif"><i>Februari – Juni 2012:</i> Het internetbureau iWebware ondervond dat de bedrijfswebsite niet meer aansloot op de identiteit van het bedrijf.</span><br> Gedurende de stage heb ik gewerkt aan het <span class="highlight">creëren van een nieuwe branding en het toepassen van de vernieuwde huisstijl op de bedrijfswebsite.</span> Voor een deel bestond de opdracht uit onderzoek naar bijvoorbeeld de concurrentie, de klant en trends in de vormgeving van websites. Met de uit onderzoek verkregen kennis is vervolgens een nieuwe huisstijl ontworpen en de website zowel visueel als functioneel geüpdatet. <br><br>
-            			<img src="images/iwebware.jpg" width="824" height="1107" alt="iwebware_design"> </p>
+                         <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div></div>
+                          <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-466px;"></div></div> 
+                          <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; "></div></div>
+            			<p class="right"><span class="serif"><i>Februari – Juni 2012:</i> Het internetbureau iWebware ondervond dat de bedrijfswebsite niet meer aansloot op de identiteit van het bedrijf.</span><br> Gedurende de stage heb ik gewerkt aan het <span class="highlight">creëren van een nieuwe branding en het toepassen van de vernieuwde huisstijl op de bedrijfswebsite.</span> Voor een deel bestond de opdracht uit onderzoek naar bijvoorbeeld de concurrentie, de klant en trends in de vormgeving van websites. Met de uit onderzoek verkregen kennis is vervolgens een nieuwe huisstijl ontworpen en de website zowel visueel als functioneel geüpdatet.</p>
+            			<div class="x1024"><img src="images/iwebware.jpg" width="824" height="1107" alt="iwebware_design" style="padding-left:100px; padding-right:100px; padding-bottom:50px; margin-left:-682px;"></div> 
+                        <div class="x700"><img src="images/iwebware.jpg" width="600" height="806" alt="iwebware_design" style="padding-left:50px; padding-right:50px; padding-bottom:50px; margin-left:-466px;"></div> 
+                         <div class="x480"><img src="images/iwebware.jpg" width="424" height="570" alt="iwebware_design" style="padding-left:28px; padding-right:28px; padding-bottom:28px;"></div> 
           		</div>
       		</div>
-        
-        	<div class="imageBox" style="clear:both;"> <img src="thumbnails/img8.jpg" width="342" height="342" alt="onderzoeksproject project">
+        	</div>
+            </div>
+        	<div class="new_row"><div class="imageBox"> <div class="thumbnail"><img src="thumbnails/img8.jpg" alt="onderzoeksproject project"></div>
         		<h2 class="interactiveh2">Fitness Game</h2>
-        		<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="padding-left:150px; padding-right:835px;">
+        		<div class="mobile_right">
+                <div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow">
             		<h3>Fitness Game</h3>
-                     <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc;"></div>
-            		<p><span class="serif"><i>December 2011:</i> E-fitness is gericht op fitness- en trainingsapparatuur die kinderen en jongeren op een speelse manier aanzet tot meer beweging.</span><br> Voor de minor Lifestyle hebben we een prototype van een Flash game ontworpen waarbij spelers met behulp van schoppen en slaan een op hen afkomende muur van blokken kapot moesten maken. Bewegingen werden getraceerd met een Xbox Kinect. <br><br>
-            		<img src="images/brainblock.jpg" width="824" height="206" alt="brainblok"> </p>
+                     <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc;"></div></div>
+                     <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc;"></div></div>
+                     <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; margin-left:-240px;"></div></div>
+            		<p><span class="serif"><i>December 2011:</i> E-fitness is gericht op fitness- en trainingsapparatuur die kinderen en jongeren op een speelse manier aanzet tot meer beweging.</span><br> Voor de minor Lifestyle hebben we een prototype van een Flash game ontworpen waarbij spelers met behulp van schoppen en slaan een op hen afkomende muur van blokken kapot moesten maken. Bewegingen werden getraceerd met een Xbox Kinect. </p>
+            		<div class="x1024"><img src="images/brainblock.jpg" width="824" height="206" alt="brainblok" style="padding-left:100px; padding-right:100px; padding-bottom:50px;"></div>
+                    <div class="x700"><img src="images/brainblock.jpg" width="600" height="146" alt="brainblok" style="padding-left:50px; padding-right:50px; padding-bottom:50px;"></div>
+                    <div class="x480"><img src="images/brainblock.jpg" width="424" height="103" alt="brainblok" style="padding-left:28px; padding-right:28px; padding-bottom:50px; margin-left:-240px;"></div>
           		</div>
       		</div>
-            
-       		<div class="imageBox"> <img src="thumbnails/img9.jpg" width="342" height="342" alt="afstudeer project">
+            </div>
+            </div>
+       		<div class="mobile_new_row"><div class="imageBox"><div class="thumbnail"> <img src="thumbnails/img9.jpg" alt="afstudeer project"></div>
         		<h2 class="interactiveh2">Ziekenhuis Rustruimte</h2>
-        		<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -341px; padding-left:500px; padding-right:485px; position:relative; border-top:1px solid #d4d4d4;">
+        		<div class="mobile_left">
+                <div class="expandedcontent"><img class="middle" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
+
             		<h3 class="middle">Ziekenhuis Rustruimte</h3>
-                     <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div>
-            		<p class="middle"><span class="serif"><i>Juli 2011:</i> Wachtruimtes zien er vaak somber en kaal uit, ook zitten mensen hier vaak vol spanning.</span><br> Om de beleving van het zitten in een wachtruimte te verbeteren hebben we een proptype rustruimte gemaakt waar met behulp van licht, natuurbeelden op de muren en geluid wachtenden tot rust kunnen komen en op andere gedachten worden gebracht. Video opnames van landschappen worden in drie delen gesplitst en over drie muren geprojecteerd. Daarbij past de kleur van het licht zich aan, aan het beeldmateriaal. <br><br>
-           			<img src="images/rust.jpg" width="490" height="280" alt="rustruimte" style="margin-left:160px;"> </p>
+                    <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-341px;"></div></div>
+                     <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-233px;"></div></div>
+                     <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; "></div></div>
+            		<p class="middle"><span class="serif"><i>Juli 2011:</i> Wachtruimtes zien er vaak somber en kaal uit, ook zitten mensen hier vaak vol spanning.</span><br> Om de beleving van het zitten in een wachtruimte te verbeteren hebben we een proptype rustruimte gemaakt waar met behulp van licht, natuurbeelden op de muren en geluid wachtenden tot rust kunnen komen en op andere gedachten worden gebracht. Video opnames van landschappen worden in drie delen gesplitst en over drie muren geprojecteerd. Daarbij past de kleur van het licht zich aan, aan het beeldmateriaal. </p>
+           			<div class="x700"><img src="images/rust.jpg" width="490" height="280" alt="rustruimte" style="margin-left:-233px; padding-left:105px; padding-right:105px; padding-bottom:50px;"></div> 
+                    <div class="x1024"><img src="images/rust.jpg" width="490" height="280" alt="rustruimte" style="margin-left:-341px; padding-left:267px; padding-right:267px; padding-bottom:50px;"></div>
+                    <div class="x480"><img src="images/rust.jpg" width="424" height="242" alt="rustruimte" style=" padding-left:28px; padding-right:28px; padding-bottom:50px;"></div>
           		</div>
       		</div>
-        	
-            <div class="imageBox"> <img src="thumbnails/img10.jpg" width="342" height="342" alt="afstudeer project">
+        	</div>
+            </div>
+            <div class="imageBox"><div class="thumbnail"> <img src="thumbnails/img10.jpg" alt="afstudeer project"></div>
         		<h2 class="interactiveh2">Stage Philips</h2>
-        		<div class="expandedcontent"><img src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="left: -682px; padding-left:840px; padding-right:145px; position:relative; border-top:1px solid #d4d4d4;">
+        		<div class="mobile_right">
+                <div class="expandedcontent"><img class="right" src="interface_images/arrow.jpg" width="39" height="34" alt="arrow" style="position:relative; border-top:1px solid #d4d4d4;">
             		<h3 class="right">Stage Philips</h3>
-                     <div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div>
-            		<p class="right"><i>September 2010 - januari 2011:</i> Mijn stageopdracht bestond uit het ontwerpen van een <span class="highlight">TV user interface voor de bediening en creatie van lichtscènes</span> en het uitwerken van dit ontwerp tot een demo. Een lichtscène is hierbij een een samenspel van lampen met op elkaar afgestemde lichtsterkten en kleuren. Het idee bij deze opdracht was dat alle verlichting binnen het huis via één centraal systeem kon worden beheerd. De stage vond plaats in de context van een op domotica gericht project bij de Consumer Lifestyle afdeling van Philips. <br><br>
-            		<img src="images/final_design.jpg" width="824" height="463" alt="philips interface"><br>
-            		<br>
-            		<img src="images/final_design_calendar.jpg" width="824" height="463" alt="philips interface2"></p>
+                     <div class="x1024"><div style=" width:824px; height:1px; border:none; border-left:100px solid white; border-right:100px solid white; background:#ccc; margin-left:-682px;"></div></div>
+                      <div class="x700"><div style=" width:600px; height:1px; border:none; border-left:50px solid white; border-right:50px solid white; background:#ccc; margin-left:-466px;"></div></div>
+                      <div class="x480"><div style=" width:424px; height:1px; border:none; border-left:28px solid white; border-right:28px solid white; background:#ccc; margin-left:-240px;"></div></div>
+            		<p class="right"><i>September 2010 - januari 2011:</i> Mijn stageopdracht bestond uit het ontwerpen van een <span class="highlight">TV user interface voor de bediening en creatie van lichtscènes</span> en het uitwerken van dit ontwerp tot een demo. Een lichtscène is hierbij een een samenspel van lampen met op elkaar afgestemde lichtsterkten en kleuren. Het idee bij deze opdracht was dat alle verlichting binnen het huis via één centraal systeem kon worden beheerd. De stage vond plaats in de context van een op domotica gericht project bij de Consumer Lifestyle afdeling van Philips.</p>
+            		<div class="x1024"><img src="images/final_design.jpg" width="824" height="463" alt="philips interface" style=" margin-left:-682px; padding-left:100px; padding-right:100px; padding-bottom:50px; margin-bottom:-50px;"><br>
+            		<br></div>
+            		<div class="x1024"><img src="images/final_design_calendar.jpg" width="824" height="463" alt="philips interface2" style=" margin-left:-682px; padding-left:100px; padding-right:100px; padding-bottom:50px;"></div>
+                    <div class="x700"><img src="images/final_design.jpg" width="600" height="337" alt="philips interface" style="margin-left:-466px; padding-left:50px; padding-right:50px; padding-bottom:30px; margin-bottom:-30px;"><br>
+            		<br></div>
+            		<div class="x700"><img src="images/final_design_calendar.jpg" width="600" height="337" alt="philips interface2" style="margin-left:-466px; padding-left:50px; padding-right:50px; padding-bottom:50px;"></div>
+                     <div class="x480"><img src="images/final_design.jpg" width="424" height="238" alt="philips interface" style="margin-left:-240px; padding-left:28px; padding-right:28px; padding-bottom:30px; margin-bottom:-30px;"><br>
+            		<br></div>
+            		<div class="x480"><img src="images/final_design_calendar.jpg" width="424" height="238" alt="philips interface2" style="margin-left:-240px; padding-left:28px; padding-right:28px; padding-bottom:50px;"></div>
           		</div>
       		</div>
       	</div>
-    	<img src="interface_images/rand.jpg" width="1024" height="96" alt="rand" style="margin-bottom:-4px; margin-top:-5px;">
+        </div>
+    	<div class="x1024" style="background:white;"><img src="interface_images/rand.jpg" width="1024" height="96" alt="rand" style="margin-bottom:-4px; margin-top:-5px;" ></div>
+        <div class="x700"><img src="interface_images/rand_tablet.jpg" width="700" height="66" alt="rand" style="margin-bottom:-4px; margin-top:0px; background:white;"></div>
+            <div class="x480"><img src="interface_images/rand_phone.jpg" width="480" height="45" alt="rand" style="margin-bottom:-4px; margin-top:-4px;"></div>
   		</section>
     
     	<section id="page5">
-    		<div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div>
+    		
+<div class="x1024"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div></div>       		
+<div class="x700"><div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:50px;"></div></div>      
+<div class="x480"> <div style="width:40px;height:1px;background:#50434e; position:absolute; margin-top:74px; margin-left:28px;"></div></div>
     		<h1>Competenties</h1>
-    		<div style="width:666px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:306px;"></div>
+    		<div class="x1024"><div style="width:666px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:306px;"></div></div>
+            <div class="x700"><div style="width:340px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:306px;"></div></div>
+            <div class="x480"><div style="width:168px;height:1px;background:#50434e; position:absolute; margin-top:-40px; margin-left:284px;"></div></div>
     		<h2>Vaardigheden met Programmeren</h2>
     		<div class="taal_item">
         		<div id="first_item"> <img src="images/html.png" width="100" height="111" alt="htmlimg">
@@ -519,13 +737,17 @@ Meer informatie over dit project is te vinden in het <a href="pdf/DIV__Report.pd
     		<div class="taal_item"> <img src="images/as.png" width="100" height="111" alt="htmlimg">
         		<p>Tijdens mijn stage bij Philips heb ik gebruik gemaakt van ActionScript 3 voor het maken van een TV interface. Ik ben hierdoor bekend geworden met het princiepe van object-georiënteerd programmeren.</p>
       		</div>
-    	
+ <div id="competenties">   	
     	    <h2>Vormgeving & Creativiteit</h2>
     		<p>Ik zie User Interface (UI) design als een gestructureerd process, echter komt er ook creativiteit bij kijken. UI design heeft immers een visuele kant en elke interface dient zijn eigen unieke en herkenbare stijl te hebben. Als kind vond ik het al fantastisch om me bezig te houden met vormen en kleuren. Ik kan dan ook met gemak uren besteden aan het ontwerpen van een interface, zonder mij ook maar een moment te vervelen. Gedurende mijn opleidingen heb ik al voor verschillende soorten devices interfaces ontworpen (bijvoorbeeld voor de: TV, smartphone, tablet en PC). Daarnaast heb ik les gehad in: typografie, kleurgebruik, huisstijl ontwerp, webdesign, GUI design, infograpgics design, animaties en fotografie.</p>
-    		<img src="images/mobile.jpg" width="205" height="342" alt="mobile" style="margin-left:50px; margin-right:-4px;"> <img src="images/infographics.jpg" width="484" height="342" alt="IG"><img src="images/SMMK.jpg" width="235" height="342" alt="huisstijl">
+    		<div class="x1024"><img src="images/mobile.jpg" width="205" height="342" alt="mobile" style="margin-left:50px; margin-right:-4px;"><img src="images/infographics.jpg" width="484" height="342" alt="IG"><img src="images/SMMK.jpg" width="235" height="342" alt="huisstijl"></div>
+            
+            <div class="x700"><img src="images/infographics.jpg" width="484" height="342" alt="IG" style="margin-left:108px; margin-right:108px;"></div>
     	
     	    <h2>Usability & Interaction design</h2>
-    		<img src="images/UCD-diagram.jpg" width="391" height="300" alt="UCD" style="border:solid 1px #000000; float:right; margin-right:50px; margin-left:50px;">
+    		<div class="x1024"><img src="images/UCD-diagram.jpg" width="391" height="300" alt="UCD" style="border:solid 1px #000000; float:right; margin-right:50px; margin-left:50px;"></div>
+            	<div class="x700"><img src="images/UCD-diagram.jpg" width="600" height="479" alt="UCD" style="border:solid 1px #000000; margin-right:50px; margin-left:50px; margin-bottom:10px;"></div>
+                <div class="x480"><img src="images/UCD-diagram.jpg" width="424" height="338" alt="UCD" style="border:solid 1px #000000; margin-right:28px; margin-left:28px; margin-bottom:10px;"></div>
     		<p>Interaction design is gericht op de structuur en het gedrag van een systeem. Het doel is om de gebruiker met zo weinig mogelijk acties de gewenste taak uit te laten voeren. Twee belangrijke elementen van een goed interaction design zijn consistentie en het inspelen op de verwachtingen van de gebruiker. Vanuit mijn opleidingen heb ik geleerd om bij interface ontwikkeling niet alleen te kijken naar esthetiek, maar ook voornamelijk te denken aan de usability principes (waarvan consistentie er één is). Om een goede interactie te waarborgen, start ik een project graag met een stukje gebruikersonderzoek. Uit zo een onderzoek ontstaan vaak taakmodellen en dialoogmodellen. Zulke modellen tonen de systeem- functionaliteiten, acties die de gebruiker dient uit te voeren en de benodigde schermonderdelen. Vervolgens worden taak- en dialoog- modellen omgezet naar het eerste prototype. Het maken van makkelijk aanpasbare, tussentijdse prototypes zorgt ervoor dat bruikbaarheidsfouten en structurele fouten vroegtijdig opgespoord en aangepast kunnen worden.</p>
     	
         	<h2>Onderzoek & Testen</h2>
@@ -535,10 +757,13 @@ Meer informatie over dit project is te vinden in het <a href="pdf/DIV__Report.pd
         gehouden met klanten en experts, gebruikers geobserveerd, experimenten uitgevoerd, focus- groepen georganiseerd, enquêtes afgenomen en prototypes getest. Daarnaast heb ik tijdens onderzoeksprojecten ook geleerd de uit onderzoek verkregen data op een statistische wijze te analyseren en uit grote hoeveelheden data specifieke conclusies te trekken.</p>
     	
         	<h2>Samenwerken & Zelfstandigheid</h2>
-    		<img src="images/DSC03312.JPG" width="400" height="266" alt="groepsfoto" style="margin-left:50px; margin-right:50px; margin-top:-40px; float:right;">
+    		<div class="x1024"><img src="images/DSC03312.JPG" width="400" height="266" alt="groepsfoto" style="margin-left:50px; margin-right:50px; margin-top:-40px; float:right; padding-bottom:70px;"></div>
     		<p style="padding-bottom:50px; margin-bottom:0px;">Ik zie zelfstandigheid als een van mijn goede eigenschappen. Deze zelfstandigheid wordt mogelijk gemaakt door een gestructureerd proces aanpak en goede planning. Alhoewel ik goed zelfstandig kan werken, vind ik het nog veel leuker om samen te werken in een team. Gedurende mijn opleidingen heb ik in een groot aantal projectgroepen gewerkt. Hierbij heb ik ook met opdrachtgevers vanuit verschillende vakgebieden samen- gewerkt. Ik vind het leuk om kennis te delen, van elkaar te leren, elkaar te inspireren en gezamenlijk tot nieuwe oplossingen te komen. Ik vind het altijd belangrijk om binnen een team mijn steentje bij te dragen en ga dan ook niet zitten wachten totdat mij een taak opgedragen wordt.</p>
+            <div class="x700"><img src="images/DSC03312.JPG" width="400" height="266" alt="groepsfoto" style="margin-left:150px; margin-right:150px; margin-top:-36px; margin-bottom:28px;"></div>
+            <div class="x480"><img src="images/DSC03312.JPG" width="400" height="266" alt="groepsfoto" style="margin-left:40px; margin-right:40px; margin-top:-36px; margin-bottom:28px;"></div>
   		</section>
   	</div>
-<div style="width:1024px;height:100px;border:none; background:#1a161a"></div>
+    </div>
+<!--<div style="width:1024px;height:100px;border:none; background:#1a161a"></div>-->
 </body>
 </html>
